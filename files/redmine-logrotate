@@ -1,0 +1,7 @@
+/var/www/html/rails/log/*.log
+{
+    rotate 14
+    daily
+    missingok
+    nodateext
+}
