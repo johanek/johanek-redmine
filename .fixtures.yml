@@ -1,0 +1,7 @@
+fixtures:
+  repositories:
+    apache: "git://github.com/johanek/johanek-apache.git"
+    passenger: "git://github.com/johanek/johanek-passenger.git"
+    mysql: "git://github.com/puppetlabs/puppetlabs-mysql.git"
+  symlinks:
+    redmine: "#{source_dir}"
