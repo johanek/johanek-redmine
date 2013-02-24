@@ -23,23 +23,23 @@ class redmine::config {
   Exec {
     cmd => "/bin/chown -R ${redmine::params::apache_user}.${redmine::params::apache_group} /usr/src/redmine-${redmine::version}"
   }
-  
+
   file { '/var/www/html/redmine/config/database.yml':
     ensure  => present,
-    content => template("redmine/database.yml.erb"),
+    content => template('redmine/database.yml.erb'),
     require => File['/var/www/html/redmine']
   }
 
   file { '/var/www/html/redmine/config/configuration.yml':
     ensure  => present,
-    content => template("redmine/configuration.yml.erb"),
+    content => template('redmine/configuration.yml.erb'),
     require => File['/var/www/html/redmine']
   }
 
   apache::vhost { 'redmine':
     port          => '80',
     docroot       => '/var/www/html/redmine/public',
-    servername    => "${::fqdn}",
+    servername    => $::fqdn,
     serveraliases => 'redmine',
     options       => 'Indexes FollowSymlinks ExecCGI'
   }

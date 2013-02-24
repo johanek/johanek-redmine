@@ -1,6 +1,7 @@
+# Class redmine::database
 class redmine::database {
 
-  if $redmine::database_server == 'localhost' { 
+  if $redmine::database_server == 'localhost' {
 
     Database {
       require => Class['mysql::server']
@@ -12,7 +13,7 @@ class redmine::database {
     }
 
     database_user { "${redmine::database_user}@${redmine::database_server}":
-      password_hash => mysql_password("${redmine::database_password}")
+      password_hash => mysql_password($redmine::database_password)
     }
 
     database_grant { "${redmine::database_user}@${redmine::database_server}/${redmine::production_database}":
@@ -22,7 +23,7 @@ class redmine::database {
     database_grant { "${redmine::database_user}@${redmine::database_server}/${redmine::development_database}":
       privileges => ['all']
     }
-    
+
   }
 
 }

@@ -58,7 +58,7 @@ class redmine (
   $smtp_server          = 'localhost',
   $smtp_domain          = $::domain
 ) {
-  
+
   class { 'redmine::params': } ->
   class { 'redmine::install': } ->
   class { 'redmine::config': } ->
