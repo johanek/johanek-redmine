@@ -14,12 +14,6 @@ class redmine::config {
     target => "/usr/src/redmine-${redmine::version}"
   }
 
-  # file { "/usr/src/redmine-${redmine::version}":
-  #     owner   => $redmine::params::apache_user,
-  #     group   => $redmine::params::apache_group,
-  #     recurse => true,
-  #     require => Class['redmine::install']
-  #   }
   Exec {
     cmd => "/bin/chown -R ${redmine::params::apache_user}.${redmine::params::apache_group} /usr/src/redmine-${redmine::version}"
   }
