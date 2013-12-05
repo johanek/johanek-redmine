@@ -56,7 +56,11 @@ class redmine (
   $production_database  = 'redmine',
   $development_database = 'redmine_development',
   $smtp_server          = 'localhost',
-  $smtp_domain          = $::domain
+  $smtp_domain          = $::domain,
+  $smtp_port            = 25,
+  $smtp_authentication  = ':login',
+  $smtp_username        = '',
+  $smtp_password        = '',
 ) {
 
   class { 'redmine::params': } ->
