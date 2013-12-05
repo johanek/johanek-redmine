@@ -34,7 +34,7 @@ class redmine::config {
     port          => '80',
     docroot       => '/var/www/html/redmine/public',
     servername    => $::fqdn,
-    serveraliases => 'redmine',
+    serveraliases => $redmine::vhost_aliases,
     options       => 'Indexes FollowSymlinks ExecCGI'
   }
 
