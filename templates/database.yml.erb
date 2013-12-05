@@ -1,5 +1,5 @@
 production:
-  adapter: mysql
+  adapter: <%= scope.lookupvar('redmine::database_adapter') %>
   database: <%= scope.lookupvar('redmine::production_database') %>
   username: <%= scope.lookupvar('redmine::database_user') %>
   password: <%= scope.lookupvar('redmine::database_password') %>
@@ -7,7 +7,7 @@ production:
   encoding: utf8
 
 development:
-  adapter: mysql
+  adapter: <%= scope.lookupvar('redmine::database_adapter') %>
   database: <%= scope.lookupvar('redmine::development_database') %>
   username: <%= scope.lookupvar('redmine::database_user') %>
   password: <%= scope.lookupvar('redmine::database_password') %>

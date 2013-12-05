@@ -60,6 +60,10 @@ Parameters
 
   Name of database to use for development environment. Default: 'redmind_development'
 
+**database_adapter**
+
+  Database adapter to use for database configuration. 'mysql' for ruby 1.8, 'mysql2' for ruby 1.9. Default: 'mysql'
+
 **smtp_server**
 
   SMTP server to use. Default: 'localhost'
