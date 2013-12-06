@@ -67,3 +67,7 @@ Parameters
 **smtp_domain**
 
   Domain to send emails from. Default: $::domain
+
+**webroot**
+
+  Directory in which redmine web files will be installed. Default: '/var/www/html/redmine'
