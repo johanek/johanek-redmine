@@ -58,6 +58,7 @@ class redmine (
   $smtp_server          = 'localhost',
   $smtp_domain          = $::domain,
   $vhost_aliases        = 'redmine',
+  $webroot              = '/var/www/html/redmine',
 ) {
 
   class { 'redmine::params': } ->

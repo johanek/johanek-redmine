@@ -9,7 +9,7 @@ class redmine::config {
     mode  => '0644'
   }
 
-  file { '/var/www/html/redmine':
+  file { $redmine::webroot:
     ensure => link,
     target => "/usr/src/redmine-${redmine::version}"
   }
@@ -18,21 +18,21 @@ class redmine::config {
     cmd => "/bin/chown -R ${redmine::params::apache_user}.${redmine::params::apache_group} /usr/src/redmine-${redmine::version}"
   }
 
-  file { '/var/www/html/redmine/config/database.yml':
+  file { "${redmine::webroot}/config/database.yml":
     ensure  => present,
     content => template('redmine/database.yml.erb'),
-    require => File['/var/www/html/redmine']
+    require => File[$redmine::webroot]
   }
 
-  file { '/var/www/html/redmine/config/configuration.yml':
+  file { "${redmine::webroot}/config/configuration.yml":
     ensure  => present,
     content => template('redmine/configuration.yml.erb'),
-    require => File['/var/www/html/redmine']
+    require => File[$redmine::webroot]
   }
 
   apache::vhost { 'redmine':
     port          => '80',
-    docroot       => '/var/www/html/redmine/public',
+    docroot       => "${redmine::webroot}/public",
     servername    => $::fqdn,
     serveraliases => $redmine::vhost_aliases,
     options       => 'Indexes FollowSymlinks ExecCGI'
