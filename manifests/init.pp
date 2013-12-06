@@ -59,6 +59,7 @@ class redmine (
   $smtp_domain          = $::domain
 ) {
 
+  class { 'redmine::dependencies': } ->
   class { 'redmine::params': } ->
   class { 'redmine::install': } ->
   class { 'redmine::config': } ->

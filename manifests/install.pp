@@ -19,6 +19,7 @@ class redmine::install {
   exec { 'bundle_redmine':
     command => "bundle install --gemfile /usr/src/redmine-${redmine::version}/Gemfile --without development test && touch .bundle",
     creates => "/usr/src/redmine-${redmine::version}/.bundle",
+    require => Exec['gem-bundler'],
   }
 
 }
