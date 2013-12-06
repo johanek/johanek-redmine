@@ -1,15 +1,9 @@
 # Class redmine::dependencies
 class redmine::dependencies  {
 
-  exec { 'gem-rails':
-    command => 'gem install rails --no-rdoc --no-ri',
-    creates => '/usr/bin/rails',
-  }
-
   exec { 'gem-bundler':
     command => 'gem install bundler',
     creates => '/usr/bin/bundle',
-    require => Exec['gem-rails'],
   }
 
   if !defined(Package["wget"]) {
