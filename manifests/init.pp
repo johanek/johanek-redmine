@@ -47,6 +47,9 @@
 # [*smtp_domain*]
 #   Domain to send emails from. Default: $::domain
 #
+# [*webroot*]
+#   Directory in which redmine web files will be installed. Default: '/var/www/html/redmine'
+#
 class redmine (
   $version              = '2.2.3',
   $download_url         = '',
@@ -56,7 +59,9 @@ class redmine (
   $production_database  = 'redmine',
   $development_database = 'redmine_development',
   $smtp_server          = 'localhost',
-  $smtp_domain          = $::domain
+  $smtp_domain          = $::domain,
+  $vhost_aliases        = 'redmine',
+  $webroot              = '/var/www/html/redmine',
 ) {
 
   class { 'redmine::params': } ->
