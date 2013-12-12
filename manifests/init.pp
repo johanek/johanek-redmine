@@ -47,6 +47,18 @@
 # [*smtp_domain*]
 #   Domain to send emails from. Default: $::domain
 #
+# [*smtp_port*]
+#   SMTP port to use. Default: 25
+#
+# [*smtp_authentication*]
+#   SMTP authentication mode. Default: ':login'
+#
+# [*smtp_username*]
+#   SMTP user name for authentication. Default: none
+#
+# [*smtp_password*]
+#   SMTP password for authentication. Default: none
+#
 class redmine (
   $version              = '2.2.3',
   $download_url         = '',
@@ -56,7 +68,11 @@ class redmine (
   $production_database  = 'redmine',
   $development_database = 'redmine_development',
   $smtp_server          = 'localhost',
-  $smtp_domain          = $::domain
+  $smtp_domain          = $::domain,
+  $smtp_port            = 25,
+  $smtp_authentication  = ':login',
+  $smtp_username        = '',
+  $smtp_password        = '',
 ) {
 
   class { 'redmine::params': } ->
