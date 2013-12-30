@@ -24,6 +24,7 @@ describe 'redmine', :type => :class do
    
     it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/address: localhost/)}
     it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/domain: test.com/)}
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/port: 25/)}
 
     ['redmine', 'redmine_development'].each do |db|
       it { should contain_database(db).with(
@@ -110,13 +111,21 @@ describe 'redmine', :type => :class do
   context 'set mail params' do
     let :params do 
       { 
-        :smtp_server    => 'smtp',
-        :smtp_domain    => 'google.com'
+        :smtp_server          => 'smtp',
+        :smtp_domain          => 'google.com',
+        :smtp_port            => 1234,
+        :smtp_authentication  => true,
+        :smtp_username        => 'user',
+        :smtp_password        => 'password'
       }
     end
   
     it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/address: smtp/)}
     it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/domain: google.com/)}
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/port: 1234/)}
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/authentication: :login/)}
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/user_name: user/)}
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/password: password/)}        
   end
   
 end
