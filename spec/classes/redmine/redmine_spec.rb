@@ -128,4 +128,17 @@ describe 'redmine', :type => :class do
     it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/password: password/)}        
   end
   
+  context 'set webroot' do
+    let :params do
+      {
+        :webroot  => '/opt/redmine'
+      }
+    end
+    
+    it { should contain_file('/opt/redmine').with({'ensure' => 'link'})}
+    it { should contain_file('/opt/redmine/config/configuration.yml')}
+    it { should contain_file('/opt/redmine/config/configuration.yml')}
+    
+  end
+  
 end
