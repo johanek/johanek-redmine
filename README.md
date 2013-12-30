@@ -83,3 +83,12 @@ Parameters
 **smtp_password**
 
   SMTP password for authentication. Default: none
+
+**vhost_aliases**
+
+  Server aliases to use in the vhost config. Default 'redmine'. Expects a string.
+
+**webroot**
+
+  Directory in which redmine web files will be installed. Default: '/var/www/html/redmine'
+

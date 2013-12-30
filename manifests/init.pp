@@ -59,6 +59,9 @@
 # [*smtp_password*]
 #   SMTP password for authentication. Default: none
 #
+# [*webroot*]
+#   Directory in which redmine web files will be installed. Default: '/var/www/html/redmine'
+#
 class redmine (
   $version              = '2.2.3',
   $download_url         = '',
@@ -73,6 +76,8 @@ class redmine (
   $smtp_authentication  = false,
   $smtp_username        = '',
   $smtp_password        = '',
+  $vhost_aliases        = 'redmine',
+  $webroot              = '/var/www/html/redmine',
 ) {
 
   class { 'redmine::params': } ->
