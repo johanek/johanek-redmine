@@ -41,6 +41,9 @@
 # [*development_database*]
 #   Name of database to use for development environment. Default: 'redmind_development'
 #
+# [*database_adapter*]
+#   Database adapter to use for database configuration. 'mysql' for ruby 1.8, 'mysql2' for ruby 1.9. Default: 'mysql'
+#
 # [*smtp_server*]
 #   SMTP server to use. Default: 'localhost'
 #
@@ -70,6 +73,7 @@ class redmine (
   $database_password    = 'redmine',
   $production_database  = 'redmine',
   $development_database = 'redmine_development',
+  $database_adapter     = 'mysql',
   $smtp_server          = 'localhost',
   $smtp_domain          = $::domain,
   $smtp_port            = 25,
