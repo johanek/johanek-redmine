@@ -17,7 +17,7 @@ Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev
 
 Gems installed during process: bundler
 
-Modules required: johanek-apache, johanek-passenger, puppetlabs-mysql
+Modules required: johanek-apache, johanek-passenger, puppetlabs-mysql, puppetlabs-stdlib
 
 Example Usage
 -------------

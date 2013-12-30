@@ -2,12 +2,18 @@
 #
 # This module installs redmine, running behind apache and passenger, and backed by mysql
 #
-# Only tested on CentOS 6.3
+# Tested on CentOS 6.3 and debian wheezy
 #
 #== Requirements
-# Packages: wget, tar, make, gcc, mysql-devel, postgresql-devel, sqlite-devel, ImageMagick-devel
-# Gems: bundler
-# Modules: johanek-apache, johanek-passenger, puppetlabs-mysql (mysql::server)
+# Packages installed during process:
+# All OS: wget, tar, make, gcc
+# CentOS: mysql-devel, postgresql-devel, sqlite-devel, ImageMagick-devel
+# Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev
+#
+# Gems installed during process: bundler
+#
+# Modules required: johanek-apache, johanek-passenger, puppetlabs-mysql, puppetlabs-stdlib
+#
 #
 #== Example
 # class { 'apache': }
@@ -84,7 +90,6 @@ class redmine (
   $webroot              = '/var/www/html/redmine',
 ) {
 
-  class { 'redmine::dependencies': } ->
   class { 'redmine::params': } ->
   class { 'redmine::install': } ->
   class { 'redmine::config': } ->

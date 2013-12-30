@@ -26,6 +26,11 @@ describe 'redmine', :type => :class do
     it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/address: localhost/)}
     it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/domain: test.com/)}
     it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/port: 25/)}
+    
+    it { should contain_package('wget')}
+    it { should contain_package('tar')}
+    it { should contain_package('make')}
+    it { should contain_package('gcc')}
 
     ['redmine', 'redmine_development'].each do |db|
       it { should contain_database(db).with(
@@ -142,7 +147,33 @@ describe 'redmine', :type => :class do
     it { should contain_file('/opt/redmine').with({'ensure' => 'link'})}
     it { should contain_file('/opt/redmine/config/configuration.yml')}
     it { should contain_file('/opt/redmine/config/configuration.yml')}
+  end
+  
+  context 'debian' do
+    let :facts do
+      {
+        :osfamily => 'Debian'
+      }
+    end
     
+    it { should contain_package('libmysql++-dev')}
+    it { should contain_package('libmysqlclient-dev')}
+    it { should contain_package('libmagickcore-dev')}
+    it { should contain_package('libmagickwand-dev')}
+
+  end
+  
+  context 'redhat' do
+    let :facts do
+      {
+        :osfamily => 'RedHat'
+      }
+    end
+    
+    it { should contain_package('mysql-devel')}
+    it { should contain_package('postgresql-devel')}
+    it { should contain_package('sqlite-devel')}
+    it { should contain_package('ImageMagick-devel')}
   end
   
 end
