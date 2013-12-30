@@ -16,6 +16,7 @@ describe 'redmine', :type => :class do
     it { should create_class('redmine::database')}
     it { should create_class('redmine::rake')}
    
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql/)}
     it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redmine/)}
     it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redmine_development/)}
     it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/host: localhost/)}
@@ -62,6 +63,7 @@ describe 'redmine', :type => :class do
   context 'set remote db params' do
     let :params do 
       { 
+        :database_adapter     => 'mysql2',     
         :database_server      => 'db1',
         :database_user        => 'dbuser',
         :database_password    => 'password',
@@ -70,6 +72,7 @@ describe 'redmine', :type => :class do
       }
     end
     
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql2/)}
     it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redproddb/)}
     it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: reddevdb/)}
     it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/host: db1/)}
@@ -105,6 +108,7 @@ describe 'redmine', :type => :class do
     end
     
     it { should contain_database_user('dbuser@localhost') } 
+    
     
   end
 
