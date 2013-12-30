@@ -70,7 +70,7 @@ class redmine (
   $smtp_server          = 'localhost',
   $smtp_domain          = $::domain,
   $smtp_port            = 25,
-  $smtp_authentication  = ':login',
+  $smtp_authentication  = false,
   $smtp_username        = '',
   $smtp_password        = '',
 ) {

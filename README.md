@@ -74,7 +74,7 @@ Parameters
 
 **smtp_authentication**
 
-  SMTP authentication mode. Default: ':login'
+  Toggle SMTP authentication. Default: false
 
 **smtp_username**
 
