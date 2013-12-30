@@ -1,5 +1,5 @@
 name          'johanek-redmine'
-version       '0.0.1'
+version       '0.0.2'
 author        'johanek'
 license       'Apache License, Version 2.0'
 summary       'Module to install redmine'
