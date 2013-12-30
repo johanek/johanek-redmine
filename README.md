@@ -17,7 +17,7 @@ Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev
 
 Gems installed during process: bundler
 
-Modules required: johanek-apache, johanek-passenger, puppetlabs-mysql, puppetlabs-stdlib
+Modules required: johanek-apache, johanek-passenger, puppetlabs-mysql 2.0 or later, puppetlabs-stdlib
 
 Example Usage
 -------------
@@ -26,8 +26,7 @@ To install the default version of redmine
 
     class { 'apache': }
     class { 'passenger': }
-    class { 'mysql': }
-    class { 'mysql::server': }
+    class { '::mysql::server': }
     class { 'redmine': }
 
 Parameters

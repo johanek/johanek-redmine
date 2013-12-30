@@ -33,17 +33,17 @@ describe 'redmine', :type => :class do
     it { should contain_package('gcc')}
 
     ['redmine', 'redmine_development'].each do |db|
-      it { should contain_database(db).with(
+      it { should contain_mysql_database(db).with(
         'ensure'   => 'present',
         'charset'  => 'utf8'
       )}
       
-      it { should contain_database_grant("redmine@localhost/#{db}").with(
+      it { should contain_mysql_grant("redmine@localhost/#{db}").with(
         'privileges' => ['all']
       )}    
     end
     
-    it { should contain_database_user('redmine@localhost') }
+    it { should contain_mysql_user('redmine@localhost') }
      
   end
   
@@ -84,9 +84,9 @@ describe 'redmine', :type => :class do
     it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/username: dbuser/)}
     it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/password: password/)}
     
-    it { should_not contain_database } 
-    it { should_not contain_database_user } 
-    it { should_not contain_database_grant } 
+    it { should_not contain_mysql_database } 
+    it { should_not contain_mysql_user } 
+    it { should_not contain_mysql_grant } 
 
   end
   
@@ -102,17 +102,17 @@ describe 'redmine', :type => :class do
     end
     
     ['redproddb', 'reddevdb'].each do |db|
-      it { should contain_database(db).with(
+      it { should contain_mysql_database(db).with(
         'ensure'   => 'present',
         'charset'  => 'utf8'
       )}
     
-      it { should contain_database_grant("dbuser@localhost/#{db}").with(
+      it { should contain_mysql_grant("dbuser@localhost/#{db}").with(
         'privileges' => ['all']
       )}    
     end
     
-    it { should contain_database_user('dbuser@localhost') } 
+    it { should contain_mysql_user('dbuser@localhost') } 
     
     
   end

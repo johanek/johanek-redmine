@@ -12,14 +12,13 @@
 #
 # Gems installed during process: bundler
 #
-# Modules required: johanek-apache, johanek-passenger, puppetlabs-mysql, puppetlabs-stdlib
+# Modules required: johanek-apache, johanek-passenger, puppetlabs-mysql 2.0 or later, puppetlabs-stdlib
 #
 #
 #== Example
 # class { 'apache': }
 # class { 'passenger': }
-# class { 'mysql': }
-# class { 'mysql::server': }
+# class { '::mysql::server': }
 # class { 'redmine': }
 #
 # == Parameters
