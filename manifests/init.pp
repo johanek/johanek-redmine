@@ -84,6 +84,7 @@ class redmine (
   $webroot              = '/var/www/html/redmine',
 ) {
 
+  class { 'redmine::dependencies': } ->
   class { 'redmine::params': } ->
   class { 'redmine::install': } ->
   class { 'redmine::config': } ->

@@ -5,16 +5,19 @@ johanek-redmine
 
 This module installs redmine, running behind apache and passenger, and backed by mysql
 
-Only tested on CentOS 6.3
+Tested on CentOS 6.3 and debian wheezy
 
 Requirements
 ------------
 
-Packages: wget, tar, make, gcc, mysql-devel, postgresql-devel, sqlite-devel, ImageMagick-devel
+Packages installed during process:
+All OS: wget, tar, make, gcc
+CentOS: mysql-devel, postgresql-devel, sqlite-devel, ImageMagick-devel
+Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev
 
-Gems: bundler
+Gems installed during process: bundler
 
-Modules: johanek-apache, johanek-passenger, puppetlabs-mysql
+Modules required: johanek-apache, johanek-passenger, puppetlabs-mysql
 
 Example Usage
 -------------
