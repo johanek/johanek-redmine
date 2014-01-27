@@ -1,9 +1,10 @@
 # Class redmine::install
 class redmine::install {
+  package { 'libapache2-mod-passenger': }
 
   Exec {
     cwd  => '/usr/src',
-    path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ]
+    path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ]
   }
   
   # Install dependencies

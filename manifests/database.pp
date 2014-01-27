@@ -3,9 +3,7 @@ class redmine::database {
 
   if $redmine::database_server == 'localhost' {
 
-    Mysql_database {
-      require => Class['mysql::server']
-    }
+    class {'mysql::server': }
 
     mysql_database { [$redmine::production_database,$redmine::development_database]:
       ensure  => present,

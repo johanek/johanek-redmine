@@ -3,6 +3,10 @@ class redmine::config {
 
   require 'apache'
 
+  file { '/etc/apache2/sites-enabled/000-default':
+    ensure => absent
+  }
+
   File {
     owner => $redmine::params::apache_user,
     group => $redmine::params::apache_group,
@@ -33,7 +37,7 @@ class redmine::config {
   apache::vhost { 'redmine':
     port          => '80',
     docroot       => "${redmine::webroot}/public",
-    servername    => $::fqdn,
+    servername    => '*',
     serveraliases => $redmine::vhost_aliases,
     options       => 'Indexes FollowSymlinks ExecCGI'
   }
