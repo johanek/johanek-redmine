@@ -23,20 +23,6 @@ class redmine::install {
     ensure    => present,
     provider  => gem
   } ->
-  
-  # Install redmine from source
-
-  exec { 'redmine_source':
-    command => "wget ${redmine::params::download_url}",
-    creates => "/usr/src/redmine-${redmine::version}.tar.gz",
-    require => Package['wget'],
-  } ->
-
-  exec { 'extract_redmine':
-    command => "/bin/tar xvzf redmine-${redmine::version}.tar.gz",
-    creates => "/usr/src/redmine-${redmine::version}",
-    require => Package['tar'],
-  } ->
 
   exec { 'bundle_redmine':
     command => "bundle install --gemfile /usr/src/redmine-${redmine::version}/Gemfile --without development test postgresql sqlite && touch .bundle_done",

@@ -90,8 +90,9 @@ class redmine (
 ) {
 
   class { 'redmine::params': } ->
-  class { 'redmine::install': } ->
+  class { 'redmine::download': } ->
   class { 'redmine::config': } ->
+  class { 'redmine::install': } ->
   class { 'redmine::database': } ->
   class { 'redmine::rake': }
 
