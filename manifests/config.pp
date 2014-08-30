@@ -39,7 +39,8 @@ class redmine::config {
     docroot       => "${redmine::webroot}/public",
     servername    => '*',
     serveraliases => $redmine::vhost_aliases,
-    options       => 'Indexes FollowSymlinks ExecCGI'
+    options       => 'Indexes FollowSymlinks ExecCGI',
+    custom_fragment => 'RailsBaseURI /',
   }
 
   # Log rotation
