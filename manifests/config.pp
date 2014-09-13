@@ -19,7 +19,7 @@ class redmine::config {
   }
 
   Exec {
-    cmd => "/bin/chown -R ${redmine::params::apache_user}.${redmine::params::apache_group} /usr/src/redmine-${redmine::version}"
+    cmd => "chown -R ${apache::params::user}.${apache::params::group} /usr/src/redmine-${redmine::version}"
   }
 
   file { "${redmine::webroot}/config/database.yml":
