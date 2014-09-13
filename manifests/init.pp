@@ -72,7 +72,7 @@
 #
 class redmine (
   $version              = '2.2.3',
-  $download_url         = '',
+  $download_url         = 'http://svn.redmine.org/redmine',
   $database_server      = 'localhost',
   $database_user        = 'redmine',
   $database_password    = 'redmine',
@@ -87,9 +87,9 @@ class redmine (
   $smtp_password        = '',
   $vhost_aliases        = 'redmine',
   $webroot              = '/var/www/html/redmine',
+  $provider             = 'svn',
 ) {
 
-  class { 'redmine::params': } ->
   class { 'redmine::download': } ->
   class { 'redmine::config': } ->
   class { 'redmine::install': } ->
