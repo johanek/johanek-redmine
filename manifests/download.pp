@@ -24,14 +24,14 @@ class redmine::download {
     if $redmine::provider != 'wget' {
         vcsrepo { 'redmine_source':
             revision => "${redmine::version}",
-            source   => "${redmine::params::download_url}",
+            source   => "${redmine::download_url}",
             provider => "${redmine::provider}",
             path     => "/usr/src/redmine-${redmine::version}"
         }
     }
     else {
         exec { 'redmine_source':
-            command => "wget ${redmine::params::download_url}",
+            command => "wget ${redmine::download_url}",
             creates => "/usr/src/redmine-${redmine::version}.tar.gz",
             require => Package['wget'],
         } ->

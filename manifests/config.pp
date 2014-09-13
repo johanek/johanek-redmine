@@ -8,8 +8,8 @@ class redmine::config {
   }
 
   File {
-    owner => $redmine::params::apache_user,
-    group => $redmine::params::apache_group,
+    owner => $apache::params::apache_user,
+    group => $apache::params::apache_group,
     mode  => '0644'
   }
 
