@@ -46,7 +46,7 @@ class redmine::config {
   # Log rotation
   file { '/etc/logrotate.d/redmine':
     ensure => present,
-    source => 'puppet:///modules/redmine/redmine-logrotate',
+    content => template('redmine/redmine-logrotate.erb'),
     owner  => 'root',
     group  => 'root'
   }
