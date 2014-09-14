@@ -4,7 +4,7 @@ class redmine::download {
     # Install dependencies
 
     $generic_packages = [ 'wget', 'tar', 'make', 'gcc' ]
-    $debian_packages = [ 'libmysql++-dev', 'libmysqlclient-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev', 'libapache2-mod-passenger']
+    $debian_packages = [ 'libmysql++-dev', 'libmysqlclient-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev' ]
     $redhat_packages = [ 'mysql-devel', 'postgresql-devel', 'sqlite-devel', 'ImageMagick-devel' ]
 
     case $::osfamily {
