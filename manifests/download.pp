@@ -4,12 +4,35 @@ class redmine::download {
     # Install dependencies
 
     $generic_packages = [ 'wget', 'tar', 'make', 'gcc' ]
-    $debian_packages = [ 'libmysql++-dev', 'libmysqlclient-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev' ]
-    $redhat_packages = [ 'mysql-devel', 'postgresql-devel', 'sqlite-devel', 'ImageMagick-devel', 'ruby-devel' ]
+    $debian_packages  = [ 'libmysql++-dev', 'libmysqlclient-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev' ]
+    $default_packages = ['postgresql-devel', 'sqlite-devel', 'ImageMagick-devel', 'ruby-devel', 'mysql-devel' ]
 
     case $::osfamily {
         'Debian':   { $packages = concat($generic_packages, $debian_packages) }
-        default:    { $packages = concat($generic_packages, $redhat_packages) }
+        'RedHat':   {
+            case $::operatingsystem {
+                'Fedora': {
+                    if is_integer($::operatingsystemrelease) and $::operatingsystemrelease >= 19 or $::operatingsystemrelease == 'Rawhide' {
+                        $provider = 'mariadb-devel'
+                    } else {
+                        $provider = 'mysql-devel'
+                    }
+                }
+                /^(RedHat|CentOS|Scientific)$/: {
+                    if $::operatingsystemmajrelease >= 7 {
+                        $provider = 'mariadb-devel'
+                    } else {
+                        $provider = 'mysql-devel'
+                    }
+                }
+                default: {
+                    $provider = 'mysql-devel'
+                }
+            }
+            $redhat_packages = ['postgresql-devel', 'sqlite-devel', 'ImageMagick-devel', 'ruby-devel', $provider ]
+            $packages = concat($generic_packages, $redhat_packages)
+        }
+        default:    { $packages = concat($generic_packages, $default_packages) }
     }
 
     ensure_packages($packages)
