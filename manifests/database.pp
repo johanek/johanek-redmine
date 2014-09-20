@@ -16,13 +16,13 @@ class redmine::database {
       password_hash => mysql_password($redmine::database_password)
     }
 
-    mysql_grant { "${redmine::database_user}@${redmine::database_server}/${redmine::production_database}":
+    mysql_grant { "${redmine::database_user}@${redmine::database_server}/${redmine::production_database}.*":
       user        => "${redmine::database_user}@${redmine::database_server}",
       privileges  => ['all'],
       table       => "${redmine::production_database}.*"
     }
 
-    mysql_grant { "${redmine::database_user}@${redmine::database_server}/${redmine::development_database}":
+    mysql_grant { "${redmine::database_user}@${redmine::database_server}/${redmine::development_database}.*":
       user        => "${redmine::database_user}@${redmine::database_server}",
       privileges => ['all'],
       table       => "${redmine::development_database}.*"
