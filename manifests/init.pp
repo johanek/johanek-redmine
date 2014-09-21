@@ -86,6 +86,7 @@ class redmine (
   $smtp_username        = '',
   $smtp_password        = '',
   $vhost_aliases        = 'redmine',
+  $vhost_servername     = 'redmine',
   $webroot              = '/var/www/html/redmine',
   $provider             = 'svn',
 ) {
