@@ -27,7 +27,7 @@ class redmine::install {
   # Install redmine from source
 
   exec { 'redmine_source':
-    command => "wget ${redmine::params::download_url}",
+    command => "wget -O /usr/src/redmine-${redmine::version}.tar.gz ${redmine::params::download_url}",
     creates => "/usr/src/redmine-${redmine::version}.tar.gz",
     require => Package['wget'],
   } ->
