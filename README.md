@@ -1,4 +1,4 @@
-** This module is no longer under active development **
+**This module is no longer under active development**
 
 I'm no longer using redmine, so this module isn't being kept up to date. If you're looking for an alternative,
 this module looks to be actively developed:
