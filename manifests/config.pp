@@ -8,8 +8,8 @@ class redmine::config {
   }
 
   File {
-    owner => $apache::params::apache_user,
-    group => $apache::params::apache_group,
+    owner => $apache::params::user,
+    group => $apache::params::group,
     mode  => '0644'
   }
 
@@ -18,8 +18,21 @@ class redmine::config {
     target => "/usr/src/redmine-${redmine::version}"
   }
 
-  Exec {
-    cmd => "chown -R ${apache::params::user}.${apache::params::group} /usr/src/redmine-${redmine::version}"
+  # user switching makes passenger run redmine as the owner of the startup file
+  # which is config.ru or config/environment.rb depending on the Rails version
+  file { [
+      "/usr/src/redmine-${redmine::version}/config.ru",
+      "/usr/src/redmine-${redmine::version}/config/environment.rb"]:
+    ensure => 'present',
+  }
+
+  file { [
+      "/usr/src/redmine-${redmine::version}/files",
+      "/usr/src/redmine-${redmine::version}/tmp",
+      "/usr/src/redmine-${redmine::version}/tmp/pdf",
+      "/usr/src/redmine-${redmine::version}/public/plugin_assets",
+      "/usr/src/redmine-${redmine::version}/log"]:
+    ensure  => 'directory',
   }
 
   file { "${redmine::webroot}/config/database.yml":
