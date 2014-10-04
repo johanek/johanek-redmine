@@ -13,29 +13,30 @@ johanek-redmine
 
 [![Build Status](https://travis-ci.org/johanek/johanek-redmine.png)](http://travis-ci.org/johanek/johanek-redmine)
 
-This module installs redmine, running behind apache and passenger, and backed by mysql
+This module installs redmine, running behind apache and passenger, and backed by mysql or mariadb
 
-Tested on CentOS 6.3 and debian wheezy
+Tested on CentOS 6.5 and debian wheezy
 
 Requirements
 ------------
 
 Packages installed during process:
 All OS: wget, tar, make, gcc
-CentOS: mysql-devel, postgresql-devel, sqlite-devel, ImageMagick-devel
-Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev
+CentOS: mysql-devel or mariadb-devel, postgresql-devel, sqlite-devel, ImageMagick-devel, ruby-devel
+Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev, ruby-dev
 
 Gems installed during process: bundler
 
-Modules required: johanek-apache, johanek-passenger, puppetlabs-mysql 2.0 or later, puppetlabs-stdlib
+Modules required: puppetlabs-mysql 2.0 or later, puppetlabs-stdlib, puppetlabs-apache, puppetlabs-concat
+Optional modules: puppetlabs-vcsrepo if you want to download redmine from a repository(the default)
 
 Example Usage
 -------------
 
-To install the default version of redmine 
+To install the default version of redmine
 
     class { 'apache': }
-    class { 'passenger': }
+    class { 'apache::mod::passenger': }
     class { '::mysql::server': }
     class { 'redmine': }
 
@@ -48,8 +49,15 @@ Parameters
 
 **download_url**
 
-  Download URL for redmine tar.gz. If you want to install an unsupported version, this is required.
-  Versions Supported: 2.2.1, 2.2.2, 2.2.3
+  Download URL for redmine tar.gz when using wget as the provider. The repository url otherwise.
+  When using wget, be sure to provide the full url.
+  Default: http://svn.redmine.org/redmine
+
+**provider**
+
+  The VCS provider or wget.
+  When setting the provider to wget, be sure to set download_url to a valid tar.gz archive.
+  Default: svn
 
 **database_server**
 
