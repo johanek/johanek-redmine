@@ -7,13 +7,13 @@ class redmine::install {
   }
 
   package { 'bundler':
-    ensure    => present,
-    provider  => gem
+    ensure   => present,
+    provider => gem
   } ->
 
   exec { 'bundle_redmine':
-    command => "bundle install --gemfile /usr/src/redmine-${redmine::version}/Gemfile --without development test postgresql sqlite && touch .bundle_done",
-    creates => "/usr/src/redmine-${redmine::version}/.bundle_done",
+    command => "bundle install --gemfile ${redmine::install_dir}/Gemfile --without development test postgresql sqlite && touch .bundle_done",
+    creates => "${redmine::install_dir}/.bundle_done",
     require => [ Package['bundler'], Package['make'], Package['gcc'] ],
   }
 }

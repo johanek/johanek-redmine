@@ -46,21 +46,21 @@ class redmine::download {
 
     if $redmine::provider != 'wget' {
         vcsrepo { 'redmine_source':
-            revision => "${redmine::version}",
-            source   => "${redmine::download_url}",
-            provider => "${redmine::provider}",
-            path     => "/usr/src/redmine-${redmine::version}"
+            revision => $redmine::version,
+            source   => $redmine::download_url,
+            provider => $redmine::provider,
+            path     => $redmine::install_dir
         }
     }
     else {
         exec { 'redmine_source':
-            command => "wget ${redmine::download_url}",
-            creates => "/usr/src/redmine-${redmine::version}.tar.gz",
+            command => "wget -O redmine.tar.gz ${redmine::download_url}",
+            creates => '/usr/src/redmine.tar.gz',
             require => Package['wget'],
         } ->
         exec { 'extract_redmine':
-            command => "tar xvzf redmine-${redmine::version}.tar.gz",
-            creates => "/usr/src/redmine-${redmine::version}",
+            command => "mkdir -p ${redmine::install_dir} && tar xvzf redmine.tar.gz --strip-components=1 -C ${redmine::install_dir}",
+            creates => $redmine::install_dir,
             require => Package['tar'],
         }
     }

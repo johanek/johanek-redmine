@@ -97,6 +97,10 @@
 #   Directory in which redmine web files will be installed.
 #   Default: '/var/www/html/redmine'
 #
+# [*install_dir*]
+#   Path where redmine will be installed
+#   Default: '/usr/src/redmine'
+#
 class redmine (
   $version              = '2.2.3',
   $download_url         = 'http://svn.redmine.org/redmine',
@@ -115,9 +119,9 @@ class redmine (
   $vhost_aliases        = 'redmine',
   $vhost_servername     = 'redmine',
   $webroot              = '/var/www/html/redmine',
+  $install_dir          = '/usr/src/redmine',
   $provider             = 'svn',
 ) {
-
   class { 'redmine::download': } ->
   class { 'redmine::config': } ->
   class { 'redmine::install': } ->
