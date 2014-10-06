@@ -58,12 +58,12 @@ describe 'redmine', :type => :class do
       'revision' => '2.2.2',
       'provider' => 'svn',
       'source'   => 'http://svn.redmine.org/redmine',
-      'path'     => '/usr/src/redmine-2.2.2'
+      'path'     => '/usr/src/redmine'
     )}
 
     it { should contain_file('/var/www/html/redmine').with(
       'ensure' => 'link',
-      'target' => '/usr/src/redmine-2.2.2'
+      'target' => '/usr/src/redmine'
     )}
   end
 
