@@ -4,11 +4,11 @@ describe 'redmine', :type => :class do
 
   let :facts do
     {
-      :osfamily => 'Redhat',
-      :operatingsystemrelease => '6',
+      :osfamily                   => 'Redhat',
+      :operatingsystemrelease     => '6',
       :operatingsystemmajrrelease => '6',
-      :domain   => 'test.com',
-      :concat_basedir => '/dne'
+      :domain                     => 'test.com',
+      :concat_basedir             => '/dne'
     }
   end
 
@@ -36,8 +36,8 @@ describe 'redmine', :type => :class do
 
     ['redmine', 'redmine_development'].each do |db|
       it { should contain_mysql_database(db).with(
-        'ensure'   => 'present',
-        'charset'  => 'utf8'
+        'ensure'  => 'present',
+        'charset' => 'utf8'
       )}
 
       it { should contain_mysql_grant("redmine@localhost/#{db}.*").with(
@@ -105,8 +105,8 @@ describe 'redmine', :type => :class do
 
     ['redproddb', 'reddevdb'].each do |db|
       it { should contain_mysql_database(db).with(
-        'ensure'   => 'present',
-        'charset'  => 'utf8'
+        'ensure'  => 'present',
+        'charset' => 'utf8'
       )}
 
       it { should contain_mysql_grant("dbuser@localhost/#{db}.*").with(
@@ -122,12 +122,12 @@ describe 'redmine', :type => :class do
   context 'set mail params' do
     let :params do
       {
-        :smtp_server          => 'smtp',
-        :smtp_domain          => 'google.com',
-        :smtp_port            => 1234,
-        :smtp_authentication  => true,
-        :smtp_username        => 'user',
-        :smtp_password        => 'password'
+        :smtp_server         => 'smtp',
+        :smtp_domain         => 'google.com',
+        :smtp_port           => 1234,
+        :smtp_authentication => true,
+        :smtp_username       => 'user',
+        :smtp_password       => 'password'
       }
     end
 
@@ -154,10 +154,10 @@ describe 'redmine', :type => :class do
   context 'debian' do
     let :facts do
       {
-        :osfamily => 'Debian',
-        :operatingsystemrelease => '6',
+        :osfamily                   => 'Debian',
+        :operatingsystemrelease     => '6',
         :operatingsystemmajrrelease => '6',
-        :concat_basedir => '/dne'
+        :concat_basedir             => '/dne'
       }
     end
 
