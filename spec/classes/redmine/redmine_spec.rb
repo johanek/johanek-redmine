@@ -14,6 +14,7 @@ describe 'redmine', :type => :class do
 
   context 'no parameters' do
     it { should create_class('redmine::config')}
+    it { should create_class('redmine::download')}
     it { should create_class('redmine::install')}
     it { should create_class('redmine::database')}
     it { should create_class('redmine::rake')}
@@ -65,6 +66,30 @@ describe 'redmine', :type => :class do
       'ensure' => 'link',
       'target' => '/usr/src/redmine'
     )}
+  end
+
+  context 'wget download' do
+    let :params do
+      {
+        :provider     => 'wget',
+        :download_url => 'example.com/redmine.tar.gz'
+      }
+    end
+
+    it { should contain_exec('redmine_source').with(
+      'cwd'     => '/usr/src',
+      'path'    => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ],
+      'command' => 'wget -O redmine.tar.gz example.com/redmine.tar.gz',
+      'creates' => '/usr/src/redmine.tar.gz'
+    )}
+
+    it { should contain_exec('extract_redmine').with(
+      'cwd'     => '/usr/src',
+      'path'    => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ],
+      'command' => 'mkdir -p /usr/src/redmine && tar xvzf redmine.tar.gz --strip-components=1 -C /usr/src/redmine',
+      'creates' => '/usr/src/redmine'
+    )}
+
   end
 
   context 'set remote db params' do
