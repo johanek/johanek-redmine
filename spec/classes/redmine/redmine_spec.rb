@@ -57,8 +57,8 @@ describe 'redmine', :type => :class do
 
     it { should contain_vcsrepo('redmine_source').with(
       'revision' => '2.2.2',
-      'provider' => 'svn',
-      'source'   => 'http://svn.redmine.org/redmine',
+      'provider' => 'git',
+      'source'   => 'https://github.com/redmine/redmine',
       'path'     => '/usr/src/redmine'
     )}
 

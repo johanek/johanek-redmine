@@ -40,6 +40,20 @@ To install the default version of redmine
     class { '::mysql::server': }
     class { 'redmine': }
 
+To install version 2.5.0 from the official svn repository
+
+    class { 'apache': }
+    class { 'apache::mod::passenger': }
+    class { '::mysql::server': }
+    class { 'redmine':
+      download_url => 'svn.redmine.org/redmine/tags/2.5.0',
+      provider     => 'svn',
+      version      => 'HEAD',
+    }
+
+
+
+
 Parameters
 ----------
 
@@ -51,13 +65,14 @@ Parameters
 
   Download URL for redmine tar.gz when using wget as the provider. The repository url otherwise.
   When using wget, be sure to provide the full url.
-  Default: http://svn.redmine.org/redmine
+  Default: https://github.com/redmine/redmine
 
 **provider**
 
   The VCS provider or wget.
   When setting the provider to wget, be sure to set download_url to a valid tar.gz archive.
-  Default: svn
+  To use the svn provider you have to provide the full url to the tag or branch you want to download and unset the version.
+  Default: git
 
 **database_server**
 

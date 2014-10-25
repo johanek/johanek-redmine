@@ -33,14 +33,16 @@
 #   Download URL for redmine tar.gz when using wget as the provider.
 #   The repository url otherwise.
 #   When using wget, be sure to provide the full url.
-#   Default: http://svn.redmine.org/redmine
+#   Default: https://github.com/redmine/redmine
 #
 # [*provider*]
 #
 #   The VCS provider or wget.
 #   When setting the provider to wget, be sure to set download_url
 #   to a valid tar.gz archive.
-#   Default: svn
+#   To use the svn provider you have to provide the full url to the
+#   tag or branch you want to download and unset the version.
+#   Default: git
 #
 # [*database_server*]
 #   Database server to use.
@@ -103,7 +105,7 @@
 #
 class redmine (
   $version              = '2.2.3',
-  $download_url         = 'http://svn.redmine.org/redmine',
+  $download_url         = 'https://github.com/redmine/redmine',
   $database_server      = 'localhost',
   $database_user        = 'redmine',
   $database_password    = 'redmine',
@@ -120,7 +122,7 @@ class redmine (
   $vhost_servername     = 'redmine',
   $webroot              = '/var/www/html/redmine',
   $install_dir          = '/usr/src/redmine',
-  $provider             = 'svn',
+  $provider             = 'git',
 ) {
   class { 'redmine::download': } ->
   class { 'redmine::config': } ->
