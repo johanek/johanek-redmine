@@ -25,7 +25,12 @@ class redmine::config {
   file { [
       "${redmine::install_dir}/files",
       "${redmine::install_dir}/tmp",
+      "${redmine::install_dir}/tmp/sockets",
+      "${redmine::install_dir}/tmp/thumbnails",
+      "${redmine::install_dir}/tmp/cache",
+      "${redmine::install_dir}/tmp/test",
       "${redmine::install_dir}/tmp/pdf",
+      "${redmine::install_dir}/tmp/sessions",
       "${redmine::install_dir}/public/plugin_assets",
       "${redmine::install_dir}/log"]:
     ensure  => 'directory',
