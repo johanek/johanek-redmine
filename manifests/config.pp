@@ -3,10 +3,6 @@ class redmine::config {
 
   require 'apache'
 
-  file { '/etc/apache2/sites-enabled/000-default':
-    ensure => absent
-  }
-
   File {
     owner => $apache::params::user,
     group => $apache::params::group,
