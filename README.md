@@ -135,3 +135,7 @@ Parameters
 
   Directory in which redmine web files will be installed. Default: '/var/www/html/redmine'
 
+**install_dir**
+  Path where redmine will be installed
+  Default: '/usr/src/redmine'
+
