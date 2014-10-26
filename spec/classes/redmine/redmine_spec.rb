@@ -30,8 +30,6 @@ describe 'redmine', :type => :class do
     it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/domain: test.com/)}
     it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/port: 25/)}
 
-    it { should contain_package('wget')}
-    it { should contain_package('tar')}
     it { should contain_package('make')}
     it { should contain_package('gcc')}
 
@@ -75,6 +73,9 @@ describe 'redmine', :type => :class do
         :download_url => 'example.com/redmine.tar.gz'
       }
     end
+
+    it { should contain_package('wget')}
+    it { should contain_package('tar')}
 
     it { should contain_exec('redmine_source').with(
       'cwd'     => '/usr/src',
