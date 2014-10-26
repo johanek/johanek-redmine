@@ -103,6 +103,12 @@
 #   Path where redmine will be installed
 #   Default: '/usr/src/redmine'
 #
+# [*vhost_aliases*]
+#   Server aliases to use in the vhost config. Default 'redmine'. Expects a string.
+#
+# [*vhost_servername*]
+#   Server name to use in the vhost config. Default 'redmine'. Expects a string.
+#
 class redmine (
   $version              = '2.2.3',
   $download_url         = 'https://github.com/redmine/redmine',
