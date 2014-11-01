@@ -49,8 +49,8 @@ class redmine::install {
   } ->
 
   exec { 'bundle_redmine':
-    command => "bundle install --gemfile ${redmine::install_dir}/Gemfile --without development test postgresql sqlite && touch .bundle_done",
-    creates => "${redmine::install_dir}/.bundle_done",
+    command => "bundle install --gemfile ${redmine::install_dir}/Gemfile --without development test postgresql sqlite",
+    creates => "${redmine::install_dir}/Gemfile.lock",
     require => [ Package['bundler'], Package['make'], Package['gcc'] ],
   }
 }
