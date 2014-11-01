@@ -1,46 +1,56 @@
 # Class redmine::install
 class redmine::install {
 
-  Exec {
-    cwd  => '/usr/src',
-    path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/' ]
-  }
-  
+
   # Install dependencies
-  
-  $generic_packages = [ 'wget', 'tar', 'make', 'gcc' ]
-  $debian_packages = [ 'libmysql++-dev', 'libmysqlclient-dev', 'libmagickcore-dev', 'libmagickwand-dev' ]
-  $redhat_packages = [ 'mysql-devel', 'postgresql-devel', 'sqlite-devel', 'ImageMagick-devel' ]
+
+  $generic_packages = [ 'make', 'gcc' ]
+  $debian_packages  = [ 'libmysql++-dev', 'libmysqlclient-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev' ]
+  $default_packages = ['postgresql-devel', 'sqlite-devel', 'ImageMagick-devel', 'ruby-devel', 'mysql-devel' ]
 
   case $::osfamily {
     'Debian':   { $packages = concat($generic_packages, $debian_packages) }
-    default:    { $packages = concat($generic_packages, $redhat_packages) }
+    'RedHat':   {
+      case $::operatingsystem {
+        'Fedora': {
+          if is_integer($::operatingsystemrelease) and $::operatingsystemrelease >= 19 or $::operatingsystemrelease == 'Rawhide' {
+              $provider = 'mariadb-devel'
+            } else {
+              $provider = 'mysql-devel'
+            }
+        }
+        /^(RedHat|CentOS|Scientific)$/: {
+          if $::operatingsystemmajrelease >= 7 {
+              $provider = 'mariadb-devel'
+            } else {
+              $provider = 'mysql-devel'
+            }
+        }
+        default: {
+          $provider = 'mysql-devel'
+        }
+      }
+      $redhat_packages = ['postgresql-devel', 'sqlite-devel', 'ImageMagick-devel', 'ruby-devel', $provider ]
+      $packages = concat($generic_packages, $redhat_packages)
+    }
+    default:    { $packages = concat($generic_packages, $default_packages) }
   }
-  
+
   ensure_packages($packages)
-  
+
+  Exec {
+    cwd  => '/usr/src',
+    path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ]
+  }
+
   package { 'bundler':
-    ensure    => present,
-    provider  => gem
-  } ->
-  
-  # Install redmine from source
-
-  exec { 'redmine_source':
-    command => "wget ${redmine::params::download_url}",
-    creates => "/usr/src/redmine-${redmine::version}.tar.gz",
-    require => Package['wget'],
-  } ->
-
-  exec { 'extract_redmine':
-    command => "/bin/tar xvzf redmine-${redmine::version}.tar.gz",
-    creates => "/usr/src/redmine-${redmine::version}",
-    require => Package['tar'],
+    ensure   => present,
+    provider => gem
   } ->
 
   exec { 'bundle_redmine':
-    command => "bundle install --gemfile /usr/src/redmine-${redmine::version}/Gemfile --without development test postgresql sqlite && touch .bundle_done",
-    creates => "/usr/src/redmine-${redmine::version}/.bundle_done",
+    command => "bundle install --gemfile ${redmine::install_dir}/Gemfile --without development test postgresql sqlite && touch .bundle_done",
+    creates => "${redmine::install_dir}/.bundle_done",
     require => [ Package['bundler'], Package['make'], Package['gcc'] ],
   }
 }

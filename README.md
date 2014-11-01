@@ -13,31 +13,46 @@ johanek-redmine
 
 [![Build Status](https://travis-ci.org/johanek/johanek-redmine.png)](http://travis-ci.org/johanek/johanek-redmine)
 
-This module installs redmine, running behind apache and passenger, and backed by mysql
+This module installs redmine, running behind apache and passenger, and backed by mysql or mariadb
 
-Tested on CentOS 6.3 and debian wheezy
+Tested on CentOS 6.5 and debian wheezy
 
 Requirements
 ------------
 
 Packages installed during process:
 All OS: wget, tar, make, gcc
-CentOS: mysql-devel, postgresql-devel, sqlite-devel, ImageMagick-devel
-Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev
+CentOS: mysql-devel or mariadb-devel, postgresql-devel, sqlite-devel, ImageMagick-devel, ruby-devel
+Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev, ruby-dev
 
 Gems installed during process: bundler
 
-Modules required: johanek-apache, johanek-passenger, puppetlabs-mysql 2.0 or later, puppetlabs-stdlib
+Modules required: puppetlabs-mysql 2.0 or later, puppetlabs-stdlib, puppetlabs-apache, puppetlabs-concat
+Optional modules: puppetlabs-vcsrepo if you want to download redmine from a repository(the default)
 
 Example Usage
 -------------
 
-To install the default version of redmine 
+To install the default version of redmine
 
     class { 'apache': }
-    class { 'passenger': }
+    class { 'apache::mod::passenger': }
     class { '::mysql::server': }
     class { 'redmine': }
+
+To install version 2.5.0 from the official svn repository
+
+    class { 'apache': }
+    class { 'apache::mod::passenger': }
+    class { '::mysql::server': }
+    class { 'redmine':
+      download_url => 'svn.redmine.org/redmine/tags/2.5.0',
+      provider     => 'svn',
+      version      => 'HEAD',
+    }
+
+
+
 
 Parameters
 ----------
@@ -48,8 +63,16 @@ Parameters
 
 **download_url**
 
-  Download URL for redmine tar.gz. If you want to install an unsupported version, this is required.
-  Versions Supported: 2.2.1, 2.2.2, 2.2.3
+  Download URL for redmine tar.gz when using wget as the provider. The repository url otherwise.
+  When using wget, be sure to provide the full url.
+  Default: https://github.com/redmine/redmine
+
+**provider**
+
+  The VCS provider or wget.
+  When setting the provider to wget, be sure to set download_url to a valid tar.gz archive.
+  To use the svn provider you have to provide the full url to the tag or branch you want to download and unset the version.
+  Default: git
 
 **database_server**
 
@@ -104,7 +127,15 @@ Parameters
 
   Server aliases to use in the vhost config. Default 'redmine'. Expects a string.
 
+**vhost_servername**
+
+  Server name to use in the vhost config. Default 'redmine'. Expects a string.
+
 **webroot**
 
   Directory in which redmine web files will be installed. Default: '/var/www/html/redmine'
+
+**install_dir**
+  Path where redmine will be installed
+  Default: '/usr/src/redmine'
 
