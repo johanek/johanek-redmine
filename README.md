@@ -21,13 +21,17 @@ Requirements
 ------------
 
 Packages installed during process:
+
 All OS: wget, tar, make, gcc
+
 CentOS: mysql-devel or mariadb-devel, postgresql-devel, sqlite-devel, ImageMagick-devel, ruby-devel
+
 Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev, ruby-dev
 
 Gems installed during process: bundler
 
 Modules required: puppetlabs-mysql 2.0 or later, puppetlabs-stdlib, puppetlabs-apache, puppetlabs-concat
+
 Optional modules: puppetlabs-vcsrepo if you want to download redmine from a repository(the default)
 
 Example Usage
@@ -136,6 +140,7 @@ Parameters
   Directory in which redmine web files will be installed. Default: '/var/www/html/redmine'
 
 **install_dir**
+
   Path where redmine will be installed
   Default: '/usr/src/redmine'
 

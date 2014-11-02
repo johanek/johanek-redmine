@@ -36,7 +36,6 @@
 #   Default: https://github.com/redmine/redmine
 #
 # [*provider*]
-#
 #   The VCS provider or wget.
 #   When setting the provider to wget, be sure to set download_url
 #   to a valid tar.gz archive.
