@@ -53,4 +53,13 @@ class redmine::install {
     creates => "${redmine::install_dir}/Gemfile.lock",
     require => [ Package['bundler'], Package['make'], Package['gcc'] ],
   }
+
+  exec { 'bundle_update':
+    cwd         => $redmine::install_dir,
+    command     => 'bundle update',
+    refreshonly => true,
+    subscribe   => Vcsrepo['redmine_source'],
+    notify      => Exec['rails_migrations'],
+    require     => Exec['bundle_redmine'],
+  }
 }
