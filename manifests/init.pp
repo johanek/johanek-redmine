@@ -63,7 +63,7 @@
 #
 # [*development_database*]
 #   Name of database to use for development environment.
-#   Default: 'redmind_development'
+#   Default: 'redmine_development'
 #
 # [*database_adapter*]
 #   Database adapter to use for database configuration.

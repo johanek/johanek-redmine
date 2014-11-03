@@ -97,7 +97,7 @@ Parameters
 
 **development_database**
 
-  Name of database to use for development environment. Default: 'redmind_development'
+  Name of database to use for development environment. Default: 'redmine_development'
 
 **database_adapter**
 
