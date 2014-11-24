@@ -9,7 +9,7 @@
 # Packages installed during process:
 # All OS: wget, tar, make, gcc
 # CentOS: mysql-devel or mariadb-devel, postgresql-devel, sqlite-devel, ImageMagick-devel, ruby-devel
-# Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev, ruby-dev
+# Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev, ruby-dev, imagemagick
 #
 # Gems installed during process: bundler
 #
