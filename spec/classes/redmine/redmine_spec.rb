@@ -118,6 +118,18 @@ describe 'redmine', :type => :class do
 
   end
 
+  context 'set override_options' do
+    let :params do
+      {
+        :override_options => { 'foo' => 'bar', 'additional' => 'options' }
+      }
+    end
+
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/foo: bar/)}
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/additional: options/)}
+
+  end
+
   context 'set local db params' do
     let :params do
       {
