@@ -144,3 +144,26 @@ Parameters
   Path where redmine will be installed
   Default: '/usr/src/redmine'
 
+**override_options**
+
+  Empty hash by default. Can be used to add additional options to the redmine configuration file.
+  Example:
+```ruby
+class { 'redmine':
+  default_override => {'foo' => 'bar', 'bar' => 'baz'},
+}
+```
+This will generate a config that looks like this:
+```yaml
+default:
+  # default setting of the module
+  delivery_method: :smtp
+  smtp_settings:
+    address: localhost
+    port: 25
+    domain: example.com
+  # user provided custom options
+  bar: baz
+  foo: bar
+```
+  Currently does not support nested options.
