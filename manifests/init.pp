@@ -128,6 +128,7 @@ class redmine (
   $webroot              = '/var/www/html/redmine',
   $install_dir          = '/usr/src/redmine',
   $provider             = 'git',
+  $override_options     = {},
 ) {
   class { 'redmine::download': } ->
   class { 'redmine::config': } ->

@@ -9,3 +9,7 @@ default:
       user_name: <%= scope.lookupvar('redmine::smtp_username') %>
       password: <%= scope.lookupvar('redmine::smtp_password') %>
 <% end -%>
+
+<% scope.lookupvar('redmine::override_options').keys.sort.each do |key| -%>
+  <%= key %>: <%= scope.lookupvar('redmine::override_options')[key] %>
+<% end -%>
