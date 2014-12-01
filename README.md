@@ -1,13 +1,3 @@
-**This module is no longer under active development**
-
-I'm no longer using redmine, so this module isn't being kept up to date. If you're looking for an alternative,
-this module looks to be actively developed:
-
-https://forge.puppetlabs.com/velaluqa/redmine/readme
-
-If you're interested in taking over this module, get in touch. Otherwise, I'll merge PRs that have passing tests
-but I won't be able to work any issues sorry!
-
 johanek-redmine
 ---------------
 
