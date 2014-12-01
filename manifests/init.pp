@@ -108,6 +108,9 @@
 # [*vhost_servername*]
 #   Server name to use in the vhost config. Default 'redmine'. Expects a string.
 #
+# [*override_options*]
+#   Extra options to add to configuration.yml. Empty by default. Expects a hash.
+#
 class redmine (
   $version              = '2.2.3',
   $download_url         = 'https://github.com/redmine/redmine',
@@ -128,6 +131,7 @@ class redmine (
   $webroot              = '/var/www/html/redmine',
   $install_dir          = '/usr/src/redmine',
   $provider             = 'git',
+  $override_options     = {},
 ) {
   class { 'redmine::download': } ->
   class { 'redmine::config': } ->
