@@ -16,6 +16,10 @@
     {
     "operatingsystem": "Ubuntu",
     "operatingsystemrelease": [ "12.04", "10.04" ]
+    },
+    {
+    "operatingsystem": "Debian",
+    "operatingsystemrelease": [ "7" ]
     }
   ],
   "dependencies": [
