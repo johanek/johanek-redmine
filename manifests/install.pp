@@ -5,7 +5,7 @@ class redmine::install {
   # Install dependencies
 
   $generic_packages = [ 'make', 'gcc' ]
-  $debian_packages  = [ 'libmysql++-dev', 'libmysqlclient-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev', 'imagemagick' ]
+  $debian_packages  = [ 'libmysql++-dev', 'libmysqlclient-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev', 'libpq-dev', 'imagemagick' ]
   $default_packages = ['postgresql-devel', 'sqlite-devel', 'ImageMagick-devel', 'ruby-devel', 'mysql-devel' ]
 
   case $::osfamily {
@@ -38,6 +38,15 @@ class redmine::install {
 
   ensure_packages($packages)
 
+  case $redmine::database_adapter {
+    'postgresql' : {
+      $without_gems = 'development test sqlite mysql'
+    }
+    default: {
+      $without_gems = 'development test sqlite postgresql'
+    }
+  }
+
   Exec {
     cwd  => '/usr/src',
     path => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ]
@@ -49,7 +58,7 @@ class redmine::install {
   } ->
 
   exec { 'bundle_redmine':
-    command => "bundle install --gemfile ${redmine::install_dir}/Gemfile --without development test postgresql sqlite",
+    command => "bundle install --gemfile ${redmine::install_dir}/Gemfile --without ${without_gems}",
     creates => "${redmine::install_dir}/Gemfile.lock",
     require => [ Package['bundler'], Package['make'], Package['gcc'] ],
   }
