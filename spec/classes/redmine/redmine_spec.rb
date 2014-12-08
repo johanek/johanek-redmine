@@ -118,6 +118,39 @@ describe 'redmine', :type => :class do
 
   end
 
+  context 'set postgresql adapter' do
+    let :params do
+      {
+        :database_adapter     => 'postgresql',
+        :database_server      => 'localhost',
+        :database_user        => 'dbuser',
+        :database_password    => 'password',
+        :production_database  => 'redproddb',
+        :development_database => 'reddevdb'
+      }
+    end
+
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: postgresql/)}
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redproddb/)}
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: reddevdb/)}
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/host: localhost/)}
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/username: dbuser/)}
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/password: password/)}
+
+    it { should_not contain_mysql_database }
+    it { should_not contain_mysql_user }
+    it { should_not contain_mysql_grant }
+
+    ['redproddb', 'reddevdb'].each do |db|
+      it { should contain_postgresql__server__db(db).with(
+        'encoding' => 'utf8',
+        'user'     => 'dbuser',
+      )}
+
+    end
+
+  end
+
   context 'set override_options' do
     let :params do
       {
