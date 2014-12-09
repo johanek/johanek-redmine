@@ -3,7 +3,7 @@ johanek-redmine
 
 [![Build Status](https://travis-ci.org/johanek/johanek-redmine.png)](http://travis-ci.org/johanek/johanek-redmine)
 
-This module installs redmine, running behind apache and passenger, and backed by mysql or mariadb
+This module installs redmine, running behind apache and passenger, and backed by mysql, mariadb or postgresql
 
 Tested on CentOS 6.5 and debian wheezy
 
@@ -16,11 +16,11 @@ All OS: wget, tar, make, gcc
 
 CentOS: mysql-devel or mariadb-devel, postgresql-devel, sqlite-devel, ImageMagick-devel, ruby-devel
 
-Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev, ruby-dev, imagemagick
+Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev, ruby-dev, imagemagick, libpq-dev
 
 Gems installed during process: bundler
 
-Modules required: puppetlabs-mysql 2.0 or later, puppetlabs-stdlib, puppetlabs-apache, puppetlabs-concat
+Modules required: puppetlabs-mysql 2.0 or later, puppetlabs-stdlib, puppetlabs-apache, puppetlabs-concat, puppetlabs-postgresql 3.3.0 or later
 
 Optional modules: puppetlabs-vcsrepo if you want to download redmine from a repository(the default)
 
@@ -29,13 +29,16 @@ Example Usage
 
 To install the default version of redmine
 
+```puppet
     class { 'apache': }
     class { 'apache::mod::passenger': }
     class { '::mysql::server': }
     class { 'redmine': }
+```
 
 To install version 2.5.0 from the official svn repository
 
+```puppet
     class { 'apache': }
     class { 'apache::mod::passenger': }
     class { '::mysql::server': }
@@ -44,8 +47,18 @@ To install version 2.5.0 from the official svn repository
       provider     => 'svn',
       version      => 'HEAD',
     }
+```
 
+Install default redmine with a postgresql database
 
+```puppet
+    class { 'apache': }
+    class { 'apache::mod::passenger': }
+    class { '::postgresql::server': }
+    class { 'redmine':
+      database_adapter => 'postgresql',
+    }
+```
 
 
 Parameters
@@ -91,7 +104,9 @@ Parameters
 
 **database_adapter**
 
-  Database adapter to use for database configuration. 'mysql' for ruby 1.8, 'mysql2' for ruby 1.9. Default: 'mysql'
+  Database adapter to use for database configuration.
+  Can be either 'mysql' for ruby 1.8, 'mysql2' for ruby 1.9 or 'postgresql'.
+  Default: 'mysql'
 
 **smtp_server**
 
@@ -138,7 +153,7 @@ Parameters
 
   Empty hash by default. Can be used to add additional options to the redmine configuration file.
   Example:
-```ruby
+```puppet
 class { 'redmine':
   default_override => {'foo' => 'bar', 'bar' => 'baz'},
 }
