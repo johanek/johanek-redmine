@@ -144,7 +144,7 @@ describe 'redmine', :type => :class do
     ['redproddb', 'reddevdb'].each do |db|
       it { should contain_postgresql__server__db(db).with(
         'encoding' => 'utf8',
-        'user'     => 'dbuser',
+        'user'     => 'dbuser'
       )}
 
     end
