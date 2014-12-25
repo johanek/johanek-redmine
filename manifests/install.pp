@@ -60,7 +60,7 @@ class redmine::install {
   exec { 'bundle_redmine':
     command => "bundle install --gemfile ${redmine::install_dir}/Gemfile --without ${without_gems}",
     creates => "${redmine::install_dir}/Gemfile.lock",
-    require => [ Package['bundler'], Package['make'], Package['gcc'] ],
+    require => [ Package['bundler'], Package['make'], Package['gcc'], Package[$packages] ],
   }
 
   exec { 'bundle_update':
