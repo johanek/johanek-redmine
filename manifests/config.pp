@@ -1,17 +1,33 @@
 # Class redmine::config
 class redmine::config {
 
-  require 'apache'
+  if $redmine::configure_apache {
 
-  File {
-    owner => $apache::params::user,
-    group => $apache::params::group,
-    mode  => '0644'
-  }
+    require 'apache'
 
-  file { $redmine::webroot:
-    ensure => link,
-    target => $redmine::install_dir
+    File {
+      owner => $apache::params::user,
+      group => $apache::params::group,
+      mode  => '0644'
+    }
+
+    file { $redmine::webroot:
+      ensure => link,
+      target => $redmine::install_dir
+    }
+
+  } else {
+
+    File {
+      owner => $redmine::user,
+      group => $redmine::group,
+      mode  => '0644'
+    }
+
+    file { $redmine::webroot:
+      ensure => directory,
+    }
+
   }
 
   # user switching makes passenger run redmine as the owner of the startup file
@@ -48,13 +64,17 @@ class redmine::config {
     require => File[$redmine::webroot]
   }
 
-  apache::vhost { 'redmine':
-    port            => '80',
-    docroot         => "${redmine::webroot}/public",
-    servername      => $redmine::vhost_servername,
-    serveraliases   => $redmine::vhost_aliases,
-    options         => 'Indexes FollowSymlinks ExecCGI',
-    custom_fragment => 'RailsBaseURI /',
+  if $redmine::configure_apache {
+
+    apache::vhost { 'redmine':
+      port            => '80',
+      docroot         => "${redmine::webroot}/public",
+      servername      => $redmine::vhost_servername,
+      serveraliases   => $redmine::vhost_aliases,
+      options         => 'Indexes FollowSymlinks ExecCGI',
+      custom_fragment => 'RailsBaseURI /',
+    }
+
   }
 
   # Log rotation

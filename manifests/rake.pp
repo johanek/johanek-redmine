@@ -8,24 +8,28 @@ class redmine::rake {
     cwd         => $redmine::webroot,
   }
 
-  # Create session store
-  exec { 'session_store':
-    command => 'rake generate_session_store && touch .session_store',
-    creates => "${redmine::webroot}/.session_store"
+  if $redmine::bundle_exec {
+    $bundle_exec = "bundle exec "
+  }
+
+  # Create secret_token
+  exec { 'secret_token':
+    command => "${bundle_exec}rake generate_secret_token && touch .secret_token",
+    creates => "${redmine::webroot}/.secret_token"
   }
 
   # Perform rails migrations
   exec { 'rails_migrations':
-    command => 'rake db:migrate && touch .migrate',
+    command => "${bundle_exec}rake db:migrate && touch .migrate",
     creates => "${redmine::webroot}/.migrate",
-    notify  => Class['apache::service']
+    notify  => $redmine::notify
   }
 
   # Seed DB data
   exec { 'seed_db':
-    command => 'rake redmine:load_default_data && touch .seed',
+    command => "${bundle_exec}rake redmine:load_default_data && touch .seed",
     creates => "${redmine::webroot}/.seed",
-    notify  => Class['apache::service'],
+    notify  => $redmine::notify,
     require => Exec['rails_migrations']
   }
 
