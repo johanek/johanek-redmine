@@ -114,6 +114,7 @@
 class redmine (
   $version              = '2.2.3',
   $download_url         = 'https://github.com/redmine/redmine',
+  $package_name         = 'redmine',
   $database_server      = 'localhost',
   $database_user        = 'redmine',
   $database_password    = 'redmine',
@@ -126,11 +127,18 @@ class redmine (
   $smtp_authentication  = false,
   $smtp_username        = '',
   $smtp_password        = '',
+  $configure_apache     = true,
+  $notify               = [Class['apache::service']],
+  $user                 = 'redmine',
+  $group                = 'redmine',
   $vhost_aliases        = 'redmine',
   $vhost_servername     = 'redmine',
   $webroot              = '/var/www/html/redmine',
   $install_dir          = '/usr/src/redmine',
   $provider             = 'git',
+  $install_ruby_dev     = true,
+  $enable_bundler       = true,
+  $bundle_exec          = false,
   $override_options     = {},
 ) {
   class { 'redmine::download': } ->
