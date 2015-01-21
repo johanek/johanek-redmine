@@ -64,92 +64,92 @@ Install default redmine with a postgresql database
 Parameters
 ----------
 
-**version**
+#####`version`
 
   Set to desired version. Default: 2.2.3
 
-**download_url**
+#####`download_url`
 
   Download URL for redmine tar.gz when using wget as the provider. The repository url otherwise.
   When using wget, be sure to provide the full url.
   Default: https://github.com/redmine/redmine
 
-**provider**
+#####`provider`
 
   The VCS provider or wget.
   When setting the provider to wget, be sure to set download_url to a valid tar.gz archive.
   To use the svn provider you have to provide the full url to the tag or branch you want to download and unset the version.
   Default: git
 
-**database_server**
+#####`database_server`
 
   Database server to use. Default: 'localhost'
   If server is not on localhost, the database and user must be setup in advance.
 
-**database_user**
+#####`database_user`
 
   Database user. Default: 'redmine'
 
-**database_password**
+#####`database_password`
 
   Database user password. Default: 'redmine'
 
-**production_database**
+#####`production_database`
 
   Name of database to use for production environment. Default: 'redmine'
 
-**development_database**
+#####`development_database`
 
   Name of database to use for development environment. Default: 'redmine_development'
 
-**database_adapter**
+#####`database_adapter`
 
   Database adapter to use for database configuration.
   Can be either 'mysql' for ruby 1.8, 'mysql2' for ruby 1.9 or 'postgresql'.
   Default: 'mysql'
 
-**smtp_server**
+#####`smtp_server`
 
   SMTP server to use. Default: 'localhost'
 
-**smtp_domain**
+#####`smtp_domain`
 
   Domain to send emails from. Default: $::domain
 
-**smtp_port**
+#####`smtp_port`
 
   SMTP port to use. Default: 25
 
-**smtp_authentication**
+#####`smtp_authentication`
 
   Toggle SMTP authentication. Default: false
 
-**smtp_username**
+#####`smtp_username`
 
   SMTP user name for authentication. Default: none
 
-**smtp_password**
+#####`smtp_password`
 
   SMTP password for authentication. Default: none
 
-**vhost_aliases**
+#####`vhost_aliases`
 
   Server aliases to use in the vhost config. Default 'redmine'. Expects a string.
 
-**vhost_servername**
+#####`vhost_servername`
 
   Server name to use in the vhost config. Default 'redmine'. Expects a string.
 
-**webroot**
+#####`webroot`
 
   Directory in which redmine web files will be installed. Default: '/var/www/html/redmine'
 
-**install_dir**
+#####`install_dir`
 
   Path where redmine will be installed
   Default: '/usr/src/redmine'
 
-**override_options**
+#####`override_options`
 
   Empty hash by default. Can be used to add additional options to the redmine configuration file.
   Example:
