@@ -33,6 +33,7 @@ To install the default version of redmine
     class { 'apache': }
     class { 'apache::mod::passenger': }
     class { '::mysql::server': }
+    include git
     class { 'redmine': }
 ```
 
