@@ -242,10 +242,10 @@ describe 'redmine', :type => :class do
   context 'redhat' do
     let :facts do
       {
-        :osfamily => 'RedHat',
-        :operatingsystemrelease => '6',
-        :concat_basedir => '/dne'
+        :osfamily                   => 'RedHat',
+        :operatingsystemrelease     => '6',
         :operatingsystemmajrelease  => '6',
+        :concat_basedir             => '/dne'
       }
     end
 
