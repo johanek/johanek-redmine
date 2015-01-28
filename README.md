@@ -43,6 +43,7 @@ To install version 2.5.0 from the official svn repository
     class { 'apache': }
     class { 'apache::mod::passenger': }
     class { '::mysql::server': }
+    package { 'subversion':}
     class { 'redmine':
       download_url => 'svn.redmine.org/redmine/tags/2.5.0',
       provider     => 'svn',
@@ -56,6 +57,7 @@ Install default redmine with a postgresql database
     class { 'apache': }
     class { 'apache::mod::passenger': }
     class { '::postgresql::server': }
+    include git
     class { 'redmine':
       database_adapter => 'postgresql',
     }
