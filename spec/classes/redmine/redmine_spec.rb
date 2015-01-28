@@ -255,4 +255,19 @@ describe 'redmine', :type => :class do
     it { should contain_package('ImageMagick-devel')}
   end
 
+  context 'redhat7' do
+    let :facts do
+      {
+        :osfamily                   => 'RedHat',
+        :operatingsystem            => 'RedHat',
+        :operatingsystemrelease     => '7',
+        :operatingsystemmajrelease  => '7',
+        :concat_basedir             => '/dne'
+      }
+    end
+
+    it { should contain_package('mariadb-devel') }
+  end
+
+
 end
