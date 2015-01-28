@@ -133,6 +133,7 @@ class redmine (
   $provider             = 'git',
   $override_options     = {},
 ) {
+  class { 'redmine::params': } ->
   class { 'redmine::download': } ->
   class { 'redmine::config': } ->
   class { 'redmine::install': } ->
