@@ -6,7 +6,7 @@ describe 'redmine', :type => :class do
     {
       :osfamily                   => 'Redhat',
       :operatingsystemrelease     => '6',
-      :operatingsystemmajrrelease => '6',
+      :operatingsystemmajrelease  => '6',
       :domain                     => 'test.com',
       :concat_basedir             => '/dne'
     }
@@ -227,7 +227,7 @@ describe 'redmine', :type => :class do
       {
         :osfamily                   => 'Debian',
         :operatingsystemrelease     => '6',
-        :operatingsystemmajrrelease => '6',
+        :operatingsystemmajrelease  => '6',
         :concat_basedir             => '/dne'
       }
     end
@@ -244,8 +244,8 @@ describe 'redmine', :type => :class do
       {
         :osfamily => 'RedHat',
         :operatingsystemrelease => '6',
-        :operatingsystemmajrrelease => '6',
         :concat_basedir => '/dne'
+        :operatingsystemmajrelease  => '6',
       }
     end
 
