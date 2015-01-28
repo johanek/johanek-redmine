@@ -1,3 +1,4 @@
+# Class redmine::database_mysql
 class redmine::database_mysql {
 
     Mysql_database {
