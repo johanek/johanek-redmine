@@ -93,6 +93,37 @@ describe 'redmine', :type => :class do
 
   end
 
+  context 'autodetect mysql adapter' do
+    context 'mysql2' do
+      let :facts do
+        {
+          :osfamily                   => 'Redhat',
+          :operatingsystemrelease     => '6',
+          :operatingsystemmajrelease  => '6',
+          :domain                     => 'test.com',
+          :concat_basedir             => '/dne',
+          :rubyversion                => '1.9',
+        }
+      end
+
+      it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql2\n/)}
+    end
+    context 'mysql' do
+      let :facts do
+        {
+          :osfamily                   => 'Redhat',
+          :operatingsystemrelease     => '6',
+          :operatingsystemmajrelease  => '6',
+          :domain                     => 'test.com',
+          :concat_basedir             => '/dne',
+          :rubyversion                => '1.8',
+        }
+      end
+
+      it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql\n/)}
+    end
+  end
+
   context 'set remote db params' do
     let :params do
       {

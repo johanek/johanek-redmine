@@ -109,7 +109,7 @@ Parameters
 
   Database adapter to use for database configuration.
   Can be either 'mysql' for ruby 1.8, 'mysql2' for ruby 1.9 or 'postgresql'.
-  Default: 'mysql'
+  Default: 'mysql' or 'mysql2' depending on your ruby version.
 
 #####`smtp_server`
 

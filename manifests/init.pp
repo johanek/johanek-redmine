@@ -68,7 +68,7 @@
 # [*database_adapter*]
 #   Database adapter to use for database configuration.
 #   'mysql' for ruby 1.8, 'mysql2' for ruby 1.9.
-#   Default: 'mysql'
+#   Default: undef (autodetect)
 #
 # [*smtp_server*]
 #   SMTP server to use.
@@ -119,7 +119,7 @@ class redmine (
   $database_password    = 'redmine',
   $production_database  = 'redmine',
   $development_database = 'redmine_development',
-  $database_adapter     = 'mysql',
+  $database_adapter     = undef,
   $smtp_server          = 'localhost',
   $smtp_domain          = $::domain,
   $smtp_port            = 25,
