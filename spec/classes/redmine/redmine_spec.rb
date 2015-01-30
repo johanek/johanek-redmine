@@ -6,7 +6,7 @@ describe 'redmine', :type => :class do
     {
       :osfamily                   => 'Redhat',
       :operatingsystemrelease     => '6',
-      :operatingsystemmajrrelease => '6',
+      :operatingsystemmajrelease  => '6',
       :domain                     => 'test.com',
       :concat_basedir             => '/dne'
     }
@@ -227,7 +227,7 @@ describe 'redmine', :type => :class do
       {
         :osfamily                   => 'Debian',
         :operatingsystemrelease     => '6',
-        :operatingsystemmajrrelease => '6',
+        :operatingsystemmajrelease  => '6',
         :concat_basedir             => '/dne'
       }
     end
@@ -242,10 +242,10 @@ describe 'redmine', :type => :class do
   context 'redhat' do
     let :facts do
       {
-        :osfamily => 'RedHat',
-        :operatingsystemrelease => '6',
-        :operatingsystemmajrrelease => '6',
-        :concat_basedir => '/dne'
+        :osfamily                   => 'RedHat',
+        :operatingsystemrelease     => '6',
+        :operatingsystemmajrelease  => '6',
+        :concat_basedir             => '/dne'
       }
     end
 
@@ -254,5 +254,20 @@ describe 'redmine', :type => :class do
     it { should contain_package('sqlite-devel')}
     it { should contain_package('ImageMagick-devel')}
   end
+
+  context 'redhat7' do
+    let :facts do
+      {
+        :osfamily                   => 'RedHat',
+        :operatingsystem            => 'RedHat',
+        :operatingsystemrelease     => '7',
+        :operatingsystemmajrelease  => '7',
+        :concat_basedir             => '/dne'
+      }
+    end
+
+    it { should contain_package('mariadb-devel') }
+  end
+
 
 end

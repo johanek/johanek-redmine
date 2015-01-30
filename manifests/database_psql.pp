@@ -1,3 +1,4 @@
+# Class redmine::database_psql
 class redmine::database_psql {
 
     postgresql::server::db { [$redmine::production_database,$redmine::development_database]:
