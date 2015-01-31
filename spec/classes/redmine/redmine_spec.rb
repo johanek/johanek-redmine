@@ -13,35 +13,35 @@ describe 'redmine', :type => :class do
   end
 
   context 'no parameters' do
-    it { should create_class('redmine::config')}
-    it { should create_class('redmine::download')}
-    it { should create_class('redmine::install')}
-    it { should create_class('redmine::database')}
-    it { should create_class('redmine::rake')}
+    it { should create_class('redmine::config') }
+    it { should create_class('redmine::download') }
+    it { should create_class('redmine::install') }
+    it { should create_class('redmine::database') }
+    it { should create_class('redmine::rake') }
 
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redmine/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redmine_development/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/host: localhost/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/username: redmine/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/password: redmine/)}
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redmine/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redmine_development/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/host: localhost/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/username: redmine/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/password: redmine/) }
 
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/address: localhost/)}
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/domain: test.com/)}
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/port: 25/)}
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/address: localhost/) }
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/domain: test.com/) }
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/port: 25/) }
 
-    it { should contain_package('make')}
-    it { should contain_package('gcc')}
+    it { should contain_package('make') }
+    it { should contain_package('gcc') }
 
     ['redmine', 'redmine_development'].each do |db|
       it { should contain_mysql_database(db).with(
         'ensure'  => 'present',
         'charset' => 'utf8'
-      )}
+      ) }
 
       it { should contain_mysql_grant("redmine@localhost/#{db}.*").with(
         'privileges' => ['all']
-      )}
+      ) }
     end
 
     it { should contain_mysql_user('redmine@localhost') }
@@ -50,7 +50,7 @@ describe 'redmine', :type => :class do
 
   context 'set version 2.2.2' do
     let :params do
-      {:version => '2.2.2'}
+      { :version => '2.2.2' }
     end
 
     it { should contain_vcsrepo('redmine_source').with(
@@ -58,12 +58,12 @@ describe 'redmine', :type => :class do
       'provider' => 'git',
       'source'   => 'https://github.com/redmine/redmine',
       'path'     => '/usr/src/redmine'
-    )}
+    ) }
 
     it { should contain_file('/var/www/html/redmine').with(
       'ensure' => 'link',
       'target' => '/usr/src/redmine'
-    )}
+    ) }
   end
 
   context 'wget download' do
@@ -74,22 +74,22 @@ describe 'redmine', :type => :class do
       }
     end
 
-    it { should contain_package('wget')}
-    it { should contain_package('tar')}
+    it { should contain_package('wget') }
+    it { should contain_package('tar') }
 
     it { should contain_exec('redmine_source').with(
       'cwd'     => '/usr/src',
       'path'    => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ],
       'command' => 'wget -O redmine.tar.gz example.com/redmine.tar.gz',
       'creates' => '/usr/src/redmine.tar.gz'
-    )}
+    ) }
 
     it { should contain_exec('extract_redmine').with(
       'cwd'     => '/usr/src',
       'path'    => [ '/bin/', '/sbin/' , '/usr/bin/', '/usr/sbin/', '/usr/local/bin/' ],
       'command' => 'mkdir -p /usr/src/redmine && tar xvzf redmine.tar.gz --strip-components=1 -C /usr/src/redmine',
       'creates' => '/usr/src/redmine'
-    )}
+    ) }
 
   end
 
@@ -117,7 +117,7 @@ describe 'redmine', :type => :class do
         }
       end
 
-      it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql2\n/)}
+      it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql2\n/) }
     end
     context 'mysql' do
       let :facts do
@@ -131,7 +131,7 @@ describe 'redmine', :type => :class do
         }
       end
 
-      it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql\n/)}
+      it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql\n/) }
     end
   end
 
@@ -147,12 +147,12 @@ describe 'redmine', :type => :class do
       }
     end
 
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql2/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redproddb/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: reddevdb/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/host: db1/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/username: dbuser/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/password: password/)}
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql2/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redproddb/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: reddevdb/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/host: db1/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/username: dbuser/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/password: password/) }
 
     it { should_not contain_mysql_database }
     it { should_not contain_mysql_user }
@@ -172,12 +172,12 @@ describe 'redmine', :type => :class do
       }
     end
 
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: postgresql/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redproddb/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: reddevdb/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/host: localhost/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/username: dbuser/)}
-    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/password: password/)}
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: postgresql/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: redproddb/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/database: reddevdb/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/host: localhost/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/username: dbuser/) }
+    it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/password: password/) }
 
     it { should_not contain_mysql_database }
     it { should_not contain_mysql_user }
@@ -187,7 +187,7 @@ describe 'redmine', :type => :class do
       it { should contain_postgresql__server__db(db).with(
         'encoding' => 'utf8',
         'user'     => 'dbuser'
-      )}
+      ) }
 
     end
 
@@ -200,8 +200,8 @@ describe 'redmine', :type => :class do
       }
     end
 
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/foo: bar/)}
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/additional: options/)}
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/foo: bar/) }
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/additional: options/) }
 
   end
 
@@ -220,11 +220,11 @@ describe 'redmine', :type => :class do
       it { should contain_mysql_database(db).with(
         'ensure'  => 'present',
         'charset' => 'utf8'
-      )}
+      ) }
 
       it { should contain_mysql_grant("dbuser@localhost/#{db}.*").with(
         'privileges' => ['all']
-      )}
+      ) }
     end
 
     it { should contain_mysql_user('dbuser@localhost') }
@@ -244,12 +244,12 @@ describe 'redmine', :type => :class do
       }
     end
 
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/address: smtp/)}
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/domain: google.com/)}
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/port: 1234/)}
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/authentication: :login/)}
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/user_name: user/)}
-    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/password: password/)}
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/address: smtp/) }
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/domain: google.com/) }
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/port: 1234/) }
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/authentication: :login/) }
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/user_name: user/) }
+    it { should contain_file('/var/www/html/redmine/config/configuration.yml').with_content(/password: password/) }
   end
 
   context 'set webroot' do
@@ -259,9 +259,9 @@ describe 'redmine', :type => :class do
       }
     end
 
-    it { should contain_file('/opt/redmine').with({'ensure' => 'link'})}
-    it { should contain_file('/opt/redmine/config/configuration.yml')}
-    it { should contain_file('/opt/redmine/config/configuration.yml')}
+    it { should contain_file('/opt/redmine').with({'ensure' => 'link'}) }
+    it { should contain_file('/opt/redmine/config/configuration.yml') }
+    it { should contain_file('/opt/redmine/config/configuration.yml') }
   end
 
   context 'debian' do
@@ -274,10 +274,10 @@ describe 'redmine', :type => :class do
       }
     end
 
-    it { should contain_package('libmysql++-dev')}
-    it { should contain_package('libmysqlclient-dev')}
-    it { should contain_package('libmagickcore-dev')}
-    it { should contain_package('libmagickwand-dev')}
+    it { should contain_package('libmysql++-dev') }
+    it { should contain_package('libmysqlclient-dev') }
+    it { should contain_package('libmagickcore-dev') }
+    it { should contain_package('libmagickwand-dev') }
 
   end
 
@@ -291,10 +291,10 @@ describe 'redmine', :type => :class do
       }
     end
 
-    it { should contain_package('mysql-devel')}
-    it { should contain_package('postgresql-devel')}
-    it { should contain_package('sqlite-devel')}
-    it { should contain_package('ImageMagick-devel')}
+    it { should contain_package('mysql-devel') }
+    it { should contain_package('postgresql-devel') }
+    it { should contain_package('sqlite-devel') }
+    it { should contain_package('ImageMagick-devel') }
   end
 
   context 'redhat7' do
@@ -310,6 +310,5 @@ describe 'redmine', :type => :class do
 
     it { should contain_package('mariadb-devel') }
   end
-
 
 end
