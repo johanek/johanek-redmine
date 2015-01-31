@@ -7,7 +7,7 @@
 #
 #== Requirements
 # Packages installed during process:
-# All OS: wget, tar, make, gcc
+# All OS: make, gcc, tar and wget or your chosen vcs
 # CentOS: mysql-devel or mariadb-devel, postgresql-devel, sqlite-devel, ImageMagick-devel, ruby-devel
 # Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev, ruby-dev, imagemagick
 #

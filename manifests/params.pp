@@ -31,4 +31,16 @@ class redmine::params {
   } else {
     $real_adapter = 'mysql'
   }
+
+  case $redmine::provider {
+    'svn' : {
+      $provider_package = 'subversion'
+    }
+    'hg': {
+      $provider_package = 'mercurial'
+    }
+    default: {
+      $provider_package = $redmine::provider
+    }
+  }
 }

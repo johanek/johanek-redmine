@@ -93,6 +93,17 @@ describe 'redmine', :type => :class do
 
   end
 
+  context 'provider install' do
+    let :params do
+      {
+        :provider => 'svn'
+      }
+    end
+
+    it {should contain_package('subversion')}
+    it { should contain_vcsrepo('redmine_source').that_requires('Package[subversion]')  }
+  end
+
   context 'autodetect mysql adapter' do
     context 'mysql2' do
       let :facts do

@@ -9,11 +9,13 @@ class redmine::download {
   }
 
   if $redmine::provider != 'wget' {
+    ensure_packages($redmine::params::provider_package)
     vcsrepo { 'redmine_source':
       revision => $redmine::version,
       source   => $redmine::download_url,
       provider => $redmine::provider,
-      path     => $redmine::install_dir
+      path     => $redmine::install_dir,
+      require  => Package[$redmine::params::provider_package]
     }
   }
   else {
