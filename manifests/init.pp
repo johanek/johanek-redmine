@@ -67,8 +67,8 @@
 #
 # [*database_adapter*]
 #   Database adapter to use for database configuration.
-#   'mysql' for ruby 1.8, 'mysql2' for ruby 1.9.
-#   Default: undef (autodetect)
+#   Can be either 'mysql' for ruby 1.8, 'mysql2' for ruby 1.9 or 'postgresql'.
+#   Default: undef (autodetects the correct mysql adapter)
 #
 # [*smtp_server*]
 #   SMTP server to use.
