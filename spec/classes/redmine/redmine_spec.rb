@@ -105,7 +105,21 @@ describe 'redmine', :type => :class do
   end
 
   context 'autodetect mysql adapter' do
-    context 'mysql2' do
+    context 'ruby2.0' do
+      let :facts do
+        {
+          :osfamily                   => 'Redhat',
+          :operatingsystemrelease     => '6',
+          :operatingsystemmajrelease  => '6',
+          :domain                     => 'test.com',
+          :concat_basedir             => '/dne',
+          :rubyversion                => '2.0',
+        }
+      end
+
+      it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql2\n/) }
+    end
+    context 'ruby1.9' do
       let :facts do
         {
           :osfamily                   => 'Redhat',
@@ -119,7 +133,7 @@ describe 'redmine', :type => :class do
 
       it { should contain_file('/var/www/html/redmine/config/database.yml').with_content(/adapter: mysql2\n/) }
     end
-    context 'mysql' do
+    context 'ruby1.8' do
       let :facts do
         {
           :osfamily                   => 'Redhat',
