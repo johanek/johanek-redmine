@@ -38,6 +38,7 @@ class redmine::install {
     command => "bundle install --gemfile ${redmine::install_dir}/Gemfile --without ${without_gems}",
     creates => "${redmine::install_dir}/Gemfile.lock",
     require => [ Package['bundler'], Package['make'], Package['gcc'], Package[$packages] ],
+    notify  => Exec['rails_migrations'],
   }
 
   exec { 'bundle_update':

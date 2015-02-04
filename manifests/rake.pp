@@ -11,14 +11,14 @@ class redmine::rake {
   # Create session store
   exec { 'session_store':
     command => 'rake generate_session_store && touch .session_store',
-    creates => "${redmine::webroot}/.session_store"
+    creates => "${redmine::webroot}/.session_store",
   }
 
   # Perform rails migrations
   exec { 'rails_migrations':
-    command => 'rake db:migrate && touch .migrate',
-    creates => "${redmine::webroot}/.migrate",
-    notify  => Class['apache::service']
+    command     => 'rake db:migrate',
+    notify      => Class['apache::service'],
+    refreshonly => true,
   }
 
   # Seed DB data
@@ -26,8 +26,7 @@ class redmine::rake {
     command => 'rake redmine:load_default_data && touch .seed',
     creates => "${redmine::webroot}/.seed",
     notify  => Class['apache::service'],
-    require => Exec['rails_migrations']
+    require => Exec['rails_migrations'],
   }
-
 
 }
