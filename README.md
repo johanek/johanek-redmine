@@ -12,7 +12,7 @@ Requirements
 
 Packages installed during process:
 
-All OS: wget, tar, make, gcc
+All OS: make, gcc, tar and wget or your chosen vcs
 
 CentOS: mysql-devel or mariadb-devel, postgresql-devel, sqlite-devel, ImageMagick-devel, ruby-devel
 
@@ -33,7 +33,6 @@ To install the default version of redmine
     class { 'apache': }
     class { 'apache::mod::passenger': }
     class { '::mysql::server': }
-    include git
     class { 'redmine': }
 ```
 
@@ -43,7 +42,6 @@ To install version 2.5.0 from the official svn repository
     class { 'apache': }
     class { 'apache::mod::passenger': }
     class { '::mysql::server': }
-    package { 'subversion':}
     class { 'redmine':
       download_url => 'svn.redmine.org/redmine/tags/2.5.0',
       provider     => 'svn',
@@ -57,7 +55,6 @@ Install default redmine with a postgresql database
     class { 'apache': }
     class { 'apache::mod::passenger': }
     class { '::postgresql::server': }
-    include git
     class { 'redmine':
       database_adapter => 'postgresql',
     }
@@ -109,7 +106,7 @@ Parameters
 
   Database adapter to use for database configuration.
   Can be either 'mysql' for ruby 1.8, 'mysql2' for ruby 1.9 or 'postgresql'.
-  Default: 'mysql'
+  Default: 'mysql' or 'mysql2' depending on your ruby version.
 
 #####`smtp_server`
 

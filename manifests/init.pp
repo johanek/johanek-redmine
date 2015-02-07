@@ -7,7 +7,7 @@
 #
 #== Requirements
 # Packages installed during process:
-# All OS: wget, tar, make, gcc
+# All OS: make, gcc, tar and wget or your chosen vcs
 # CentOS: mysql-devel or mariadb-devel, postgresql-devel, sqlite-devel, ImageMagick-devel, ruby-devel
 # Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev, ruby-dev, imagemagick
 #
@@ -67,8 +67,8 @@
 #
 # [*database_adapter*]
 #   Database adapter to use for database configuration.
-#   'mysql' for ruby 1.8, 'mysql2' for ruby 1.9.
-#   Default: 'mysql'
+#   Can be either 'mysql' for ruby 1.8, 'mysql2' for ruby 1.9 or 'postgresql'.
+#   Default: undef (autodetects the correct mysql adapter)
 #
 # [*smtp_server*]
 #   SMTP server to use.
@@ -119,7 +119,7 @@ class redmine (
   $database_password    = 'redmine',
   $production_database  = 'redmine',
   $development_database = 'redmine_development',
-  $database_adapter     = 'mysql',
+  $database_adapter     = undef,
   $smtp_server          = 'localhost',
   $smtp_domain          = $::domain,
   $smtp_port            = 25,
