@@ -17,6 +17,13 @@ class redmine::rake {
   # Perform rails migrations
   exec { 'rails_migrations':
     command     => 'rake db:migrate',
+    notify      => Exec['plugin_migrations'],
+    refreshonly => true,
+  }
+
+  # Perform plugin migrations
+  exec { 'plugin_migrations':
+    command     => 'rake redmine:plugins:migrate',
     notify      => Class['apache::service'],
     refreshonly => true,
   }
