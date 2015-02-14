@@ -17,7 +17,9 @@ class redmine::rake {
   # Perform rails migrations
   exec { 'rails_migrations':
     command     => 'rake db:migrate',
+    subscribe   => Vcsrepo['redmine_source'],
     notify      => Exec['plugin_migrations'],
+    require     => Exec['bundle_update'],
     refreshonly => true,
   }
 
@@ -25,6 +27,7 @@ class redmine::rake {
   exec { 'plugin_migrations':
     command     => 'rake redmine:plugins:migrate',
     notify      => Class['apache::service'],
+    require     => Exec['bundle_update'],
     refreshonly => true,
   }
 
