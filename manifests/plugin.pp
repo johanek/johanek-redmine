@@ -1,14 +1,40 @@
+#= Type redmine::plugin
+#== Parameters
+#
+#[*ensure*]
+#  Wether the plugin should be installed.
+#  Possible values are installed and absent.
+#
+#[*source*]
+#  Repository of the plugin. Required
+#
+#[*version*]
+#  Set to desired version.
+#
+#[*provider*]
+#  The vcs provider. Default: git
+#
+#[*migrate*]
+#  Boolean indicating if plugin migrations should be done.
+#  See the installation instruction of the plugin if this is the case.
+#  Default: false
+#
+#[*bundle*]
+#  Boolean indicating if the plugin requires that new gems are to be installed via bundle.
+#  See the installation instruction of the plugin if this is the case.
+#  Default: false
+#
 define redmine::plugin (
+  $ensure   = present,
   $source   = undef,
   $version  = undef,
   $provider = 'git',
-  $ensure   = present,
   $migrate  = false,
   $bundle   = false,
 ) {
 
   $install_dir = "${redmine::install_dir}/plugins/${name}"
-  if $ensure == purged or $ensure == absent {
+  if $ensure == absent {
 
     if $migrate {
       exec { "rake redmine:plugins:migrate NAME=${name} VERSION=0":
