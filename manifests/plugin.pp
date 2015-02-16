@@ -30,8 +30,12 @@ define redmine::plugin (
       provider    => 'shell',
       cwd         => $redmine::webroot,
       before      => Vcsrepo[$install_dir],
+      require     => Exec['bundle_update'],
       onlyif      => "test -d ${install_dir}",
     }
+    $notify = undef
+  } else {
+    $notify = Exec['bundle_update']
   }
 
   if $source == undef {
@@ -57,7 +61,7 @@ define redmine::plugin (
     revision => $version,
     source   => $source,
     provider => $provider,
-    notify   => Exec['bundle_update'],
+    notify   => $notify,
     require  => [ Package[$provider_package]
                 , Class['redmine'] ]
   }
