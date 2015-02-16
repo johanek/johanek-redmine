@@ -41,12 +41,14 @@ class redmine::install {
     notify  => Exec['rails_migrations'],
   }
 
-  exec { 'bundle_update':
-    cwd         => $redmine::install_dir,
-    command     => 'bundle update',
-    refreshonly => true,
-    subscribe   => Vcsrepo['redmine_source'],
-    notify      => Exec['rails_migrations'],
-    require     => Exec['bundle_redmine'],
+  if $redmine::provider != 'wget' {
+    exec { 'bundle_update':
+      cwd         => $redmine::install_dir,
+      command     => 'bundle update',
+      refreshonly => true,
+      subscribe   => Vcsrepo['redmine_source'],
+      notify      => Exec['rails_migrations'],
+      require     => Exec['bundle_redmine'],
+    }
   }
 }
