@@ -10,19 +10,15 @@ Tested on CentOS 6.5 and debian wheezy
 Requirements
 ------------
 
-Packages installed during process:
+Required modules:
+* puppetlabs-mysql 2.0 or later
+* puppetlabs-stdlib
+* puppetlabs-apache
+* puppetlabs-concat
+* puppetlabs-postgresql 3.3.0 or later
 
-All OS: make, gcc, tar and wget or your chosen vcs
-
-CentOS: mysql-devel or mariadb-devel, postgresql-devel, sqlite-devel, ImageMagick-devel, ruby-devel
-
-Debian: libmysql++-dev, libmysqlclient-dev, libmagickcore-dev, libmagickwand-dev, ruby-dev, imagemagick, libpq-dev
-
-Gems installed during process: bundler
-
-Modules required: puppetlabs-mysql 2.0 or later, puppetlabs-stdlib, puppetlabs-apache, puppetlabs-concat, puppetlabs-postgresql 3.3.0 or later
-
-Optional modules: puppetlabs-vcsrepo if you want to download redmine from a repository(the default)
+Optional modules:
+* puppetlabs-vcsrepo if you want to download redmine from a repository (the default)
 
 Example Usage
 -------------
