@@ -111,6 +111,9 @@
 # [*override_options*]
 #   Extra options to add to configuration.yml. Empty by default. Expects a hash.
 #
+# [*plugins*]
+#   Optional hash of plugins, which are passed to redmine::plugin
+#
 class redmine (
   $version              = '2.2.3',
   $download_url         = 'https://github.com/redmine/redmine',
@@ -132,6 +135,7 @@ class redmine (
   $install_dir          = '/usr/src/redmine',
   $provider             = 'git',
   $override_options     = {},
+  $plugins              = {},
 ) {
   class { 'redmine::params': } ->
   class { 'redmine::download': } ->
@@ -139,5 +143,4 @@ class redmine (
   class { 'redmine::install': } ->
   class { 'redmine::database': } ->
   class { 'redmine::rake': }
-
 }

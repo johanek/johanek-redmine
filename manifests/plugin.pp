@@ -63,6 +63,6 @@ define redmine::plugin (
     provider => $provider,
     notify   => $notify,
     require  => [ Package[$provider_package]
-                , Class['redmine'] ]
+                , Exec['bundle_redmine'] ]
   }
 }

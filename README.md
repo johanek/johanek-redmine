@@ -172,3 +172,7 @@ default:
   foo: bar
 ```
   Currently does not support nested options.
+
+#####`plugins`
+
+  Optional hash of plugins to install, which are passed to redmine::plugin
