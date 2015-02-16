@@ -29,43 +29,36 @@ define redmine::plugin (
       environment => ['HOME=/root','RAILS_ENV=production','REDMINE_LANG=en'],
       provider    => 'shell',
       cwd         => $redmine::webroot,
-      before      => File[$install_dir],
+      before      => Vcsrepo[$install_dir],
       onlyif      => "test -d ${install_dir}",
     }
-    file { $install_dir:
-      ensure  => $ensure,
-      force   => true,
-      require => Class['redmine'],
-    }
+  }
 
-  } else {
+  if $source == undef {
+    fail("no source specified for redmine plugin '${name}'")
+  }
+  validate_string($source)
 
-    if $source == undef {
-      fail("no source specified for redmine plugin '${name}'")
+  case $provider {
+    'svn' : {
+      $provider_package = 'subversion'
     }
-    validate_string($source)
+    'hg': {
+      $provider_package = 'mercurial'
+    }
+    default: {
+      $provider_package = $provider
+    }
+  }
+  ensure_packages($provider_package)
 
-    case $provider {
-      'svn' : {
-        $provider_package = 'subversion'
-      }
-      'hg': {
-        $provider_package = 'mercurial'
-      }
-      default: {
-        $provider_package = $provider
-      }
-    }
-    ensure_packages($provider_package)
-
-    vcsrepo { $install_dir:
-      ensure   => $ensure,
-      revision => $version,
-      source   => $source,
-      provider => $provider,
-      notify   => Exec['bundle_update'],
-      require  => [ Package[$provider_package]
-                  , Class['redmine'] ]
-    }
+  vcsrepo { $install_dir:
+    ensure   => $ensure,
+    revision => $version,
+    source   => $source,
+    provider => $provider,
+    notify   => Exec['bundle_update'],
+    require  => [ Package[$provider_package]
+                , Class['redmine'] ]
   }
 }
