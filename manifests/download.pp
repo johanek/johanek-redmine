@@ -20,6 +20,8 @@ class redmine::download {
   }
   else {
     ensure_packages([ 'tar', 'wget' ])
+    warning("The wget provider is deprecated and will be removed in the next major version.")
+    warning("Consider using a VCS like git or svn instead.")
     exec { 'redmine_source':
       command => "wget -O redmine.tar.gz ${redmine::download_url}",
       creates => '/usr/src/redmine.tar.gz',
