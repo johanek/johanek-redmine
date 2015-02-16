@@ -12,7 +12,7 @@ class redmine::params {
           }
         }
         /^(RedHat|CentOS|Scientific)$/: {
-          if $::operatingsystemmajrelease >= 7 {
+          if $::operatingsystemmajrelease >= '7' {
             $mysql_devel = 'mariadb-devel'
           } else {
             $mysql_devel = 'mysql-devel'
