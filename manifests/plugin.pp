@@ -14,38 +14,23 @@
 #[*provider*]
 #  The vcs provider. Default: git
 #
-#[*migrate*]
-#  Boolean indicating if plugin migrations should be done.
-#  See the installation instruction of the plugin if this is the case.
-#  Default: false
-#
-#[*bundle*]
-#  Boolean indicating if the plugin requires that new gems are to be installed via bundle.
-#  See the installation instruction of the plugin if this is the case.
-#  Default: false
-#
 define redmine::plugin (
   $ensure   = present,
   $source   = undef,
   $version  = undef,
   $provider = 'git',
-  $migrate  = false,
-  $bundle   = false,
 ) {
 
   $install_dir = "${redmine::install_dir}/plugins/${name}"
   if $ensure == absent {
-
-    if $migrate {
-      exec { "rake redmine:plugins:migrate NAME=${name} VERSION=0":
-        notify      => Class['apache::service'],
-        path        => ['/bin','/usr/bin', '/usr/local/bin'],
-        environment => ['HOME=/root','RAILS_ENV=production','REDMINE_LANG=en'],
-        provider    => 'shell',
-        cwd         => $redmine::webroot,
-        before      => File[$install_dir],
-        onlyif      => "test -d ${install_dir}",
-      }
+    exec { "rake redmine:plugins:migrate NAME=${name} VERSION=0":
+      notify      => Class['apache::service'],
+      path        => ['/bin','/usr/bin', '/usr/local/bin'],
+      environment => ['HOME=/root','RAILS_ENV=production','REDMINE_LANG=en'],
+      provider    => 'shell',
+      cwd         => $redmine::webroot,
+      before      => File[$install_dir],
+      onlyif      => "test -d ${install_dir}",
     }
     file { $install_dir:
       ensure  => $ensure,
@@ -73,22 +58,12 @@ define redmine::plugin (
     }
     ensure_packages($provider_package)
 
-    if $migrate and $bundle {
-      $notify = [Exec['bundle_update'], Exec['plugin_migrations']]
-    } elsif $migrate {
-      $notify = Exec['plugin_migrations']
-    } elsif $bundle {
-      $notify = Exec['bundle_update']
-    } else {
-      $notify = undef
-    }
-
     vcsrepo { $install_dir:
       ensure   => $ensure,
       revision => $version,
       source   => $source,
       provider => $provider,
-      notify   => $notify,
+      notify   => Exec['bundle_update'],
       require  => [ Package[$provider_package]
                   , Class['redmine'] ]
     }
