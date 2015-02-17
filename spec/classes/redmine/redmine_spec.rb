@@ -325,4 +325,17 @@ describe 'redmine', :type => :class do
     it { should contain_package('mariadb-devel') }
   end
 
+  context 'fedora19' do
+    let :facts do
+      {
+        :osfamily                   => 'RedHat',
+        :operatingsystem            => 'Fedora',
+        :operatingsystemrelease     => '19',
+        :concat_basedir             => '/dne'
+      }
+    end
+
+    it { should contain_package('mariadb-devel') }
+  end
+
 end

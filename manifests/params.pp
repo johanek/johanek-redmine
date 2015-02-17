@@ -5,14 +5,14 @@ class redmine::params {
     'RedHat': {
       case $::operatingsystem {
         'Fedora': {
-          if is_integer($::operatingsystemrelease) and versioncmp($::operatingsystemrelease, '18') == 1 or $::operatingsystemrelease == 'Rawhide' {
+          if versioncmp($::operatingsystemrelease, '19') >= 0 or $::operatingsystemrelease == 'Rawhide' {
             $mysql_devel = 'mariadb-devel'
           } else {
             $mysql_devel = 'mysql-devel'
           }
         }
         /^(RedHat|CentOS|Scientific)$/: {
-          if versioncmp($::operatingsystemmajrelease, '6') == 1 {
+          if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
             $mysql_devel = 'mariadb-devel'
           } else {
             $mysql_devel = 'mysql-devel'
