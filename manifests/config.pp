@@ -46,6 +46,14 @@ class redmine::config {
     require => File[$redmine::webroot]
   }
 
+  if $::redmine::www_subdir {
+    file_line { 'redmine_relative_url_root':
+      path  => "${redmine::install_dir}/config/environment.rb",
+      line  => "Redmine::Utils::relative_url_root = '/$::redmine::www_subdir'",
+      match => '^Redmine::Utils::relative_url_root',
+    }
+  }
+
   if $::redmine::manage_vhost {
     case $::redmine::vhost_type {
       'apache' : {

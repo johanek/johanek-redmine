@@ -111,6 +111,24 @@
 # [*override_options*]
 #   Extra options to add to configuration.yml. Empty by default. Expects a hash.
 #
+# [*manage_vhost*]
+#   Should this module manage the vhost file. True by default.
+#
+# [*vhost_type*]
+#   Type of vhost to manage. 'apache' by default (and only type supported now)
+#
+# [*www_user*]
+#   User to own the files. Default depends on OS. Expects a string.
+#
+# [*www_group*]
+#   Group to own the files. Default depends on OS. Expects a string.
+#
+# [*www_subdir*]
+#   Optional directory relative to the site webroot to install redmine in.
+#   Undef by default. Expects a path string without leading slash.
+#   By using this option you must set manage_vhost to false and
+#   manage that file elsewhere.
+#
 class redmine (
   $version               = '2.2.3',
   $download_url          = 'https://github.com/redmine/redmine',
@@ -137,6 +155,7 @@ class redmine (
   $vhost_type            = 'apache',
   $www_user              = $::redmine::params::www_user,
   $www_group             = $::redmine::params::www_group,
+  $www_subdir            = undef,
   $mysql_devel_package   = $::redmine::params::mysql_devel_package,
 ) inherits redmine::params {
 
