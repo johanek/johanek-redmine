@@ -5,7 +5,7 @@ class redmine::install {
 
   $generic_packages = [ 'make', 'gcc' ]
   $debian_packages  = [ 'libmysql++-dev', 'libmysqlclient-dev', 'libmagickcore-dev', 'libmagickwand-dev', 'ruby-dev', 'libpq-dev', 'imagemagick' ]
-  $redhat_packages  = [ 'postgresql-devel', 'sqlite-devel', 'ImageMagick-devel', 'ruby-devel', $::redmine::params::mysql_devel ]
+  $redhat_packages  = [ 'postgresql-devel', 'sqlite-devel', 'ImageMagick-devel', 'ruby-devel', $::redmine::mysql_devel_package ]
 
   case $::osfamily {
     'Debian':   { $packages = concat($generic_packages, $debian_packages) }
