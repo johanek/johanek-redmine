@@ -56,9 +56,29 @@ Install default redmine with a postgresql database
     }
 ```
 
+Installing Plugins
+------------------
 
-Parameters
-----------
+Plugins can be installed and configured via the redmine::plugin resource. For example, a simple
+plugin can be installed like this:
+
+```puppet
+    redmine::plugin { 'redmine_plugin'
+      source => 'git://example.com/redmine_plugin.git'
+    }
+```
+Plugins can be installed via git (the default) or any other version control system.
+
+Bundle updates and database migrations will be handled automatically. You can update your plugin by
+setting `ensure => latest` or directly specifying the version. More comles updates can be done by subscribing
+to the plugin resource (via `subscribe => Redmine::Plugin['yourplugin']`)
+
+Uninstalling plugins can be done by simply setting `ensure => absent`. Again, database migration and
+deletion are done for you.
+
+
+Redmine Parameters
+------------------
 
 #####`version`
 
@@ -172,3 +192,19 @@ default:
 #####`plugins`
 
   Optional hash of plugins to install, which are passed to redmine::plugin
+
+Plugin Parameters
+------------------
+
+#####`ensure`
+  Wether the plugin should be installed.
+  Possible values are installed, latest, and absent.
+
+#####`source`
+  Repository of the plugin. Required
+
+#####`version`
+  Set to desired version.
+
+#####`provider`
+  The vcs provider. Default: git

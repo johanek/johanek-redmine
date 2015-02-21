@@ -3,7 +3,7 @@
 #
 #[*ensure*]
 #  Wether the plugin should be installed.
-#  Possible values are installed and absent.
+#  Possible values are installed, latest, and absent.
 #
 #[*source*]
 #  Repository of the plugin. Required
