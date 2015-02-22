@@ -20,7 +20,7 @@ describe 'redmine::plugin', :type => :define do
 
   context 'no parameters' do
     it 'should raise an error when the source is not present' do
-      expect { subject  }.to raise_error(Puppet::Error, /source/)
+      expect { should compile }.to raise_error(/source/)
     end
   end
 
