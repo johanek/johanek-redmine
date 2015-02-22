@@ -51,7 +51,7 @@ describe 'redmine::plugin', :type => :define do
     it { should contain_exec('rake redmine:plugins:migrate NAME=test_plugin VERSION=0').with(
       'cwd'    => '/opt/redmine',
       'before' => 'Vcsrepo[/opt/redmine/plugins/test_plugin]',
-      'onlyif' => 'test -d /opt/redmine/plugins/test_plugin',
+      'onlyif' => 'test -d /opt/redmine/plugins/test_plugin'
     ) }
 
     it { should contain_vcsrepo('/opt/redmine/plugins/test_plugin').with(
