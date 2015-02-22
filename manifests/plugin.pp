@@ -28,7 +28,7 @@ define redmine::plugin (
       path        => ['/bin','/usr/bin', '/usr/local/bin'],
       environment => ['HOME=/root','RAILS_ENV=production','REDMINE_LANG=en'],
       provider    => 'shell',
-      cwd         => $redmine::webroot,
+      cwd         => $redmine::install_dir,
       before      => Vcsrepo[$install_dir],
       require     => Exec['bundle_update'],
       onlyif      => "test -d ${install_dir}",

@@ -36,16 +36,14 @@ class redmine::config {
     ensure  => 'directory',
   }
 
-  file { "${redmine::webroot}/config/database.yml":
+  file { "${redmine::install_dir}/config/database.yml":
     ensure  => present,
-    content => template('redmine/database.yml.erb'),
-    require => File[$redmine::webroot]
+    content => template('redmine/database.yml.erb')
   }
 
-  file { "${redmine::webroot}/config/configuration.yml":
+  file { "${redmine::install_dir}/config/configuration.yml":
     ensure  => present,
-    content => template('redmine/configuration.yml.erb'),
-    require => File[$redmine::webroot]
+    content => template('redmine/configuration.yml.erb')
   }
 
   apache::vhost { 'redmine':
