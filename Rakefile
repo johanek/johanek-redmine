@@ -6,4 +6,13 @@ task :test => [:lint, :syntax, :spec]
 
 task :default => :test
 
-PuppetLint.configuration.send("disable_80chars")
+exclude_paths = [
+  "pkg/**/*",
+  "vendor/**/*",
+  "spec/**/*",
+]
+Rake::Task[:lint].clear
+PuppetLint::RakeTask.new :lint do |config|
+  config.disable_checks = ['80chars', 'autoloader_layout']
+  config.ignore_paths = exclude_paths
+end
