@@ -5,7 +5,7 @@ johanek-redmine
 
 This module installs redmine, running behind apache and passenger, and backed by mysql, mariadb or postgresql
 
-Tested on CentOS 6.5 and debian wheezy
+Tested on CentOS 6.5, debian wheezy and Ubuntu 14.04 (Trusty)
 
 Requirements
 ------------
