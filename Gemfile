@@ -8,7 +8,7 @@ end
 
 gem "rake"
 gem "puppet", puppetversion
-gem "puppet-lint"
-gem "rspec-puppet"
-gem "puppetlabs_spec_helper"
-gem "puppet-syntax"
+gem "puppet-lint", "1.1.0"
+gem "rspec-puppet", "2.0.0"
+gem "puppetlabs_spec_helper", "0.8.2"
+gem "puppet-syntax", "1.4.1"
