@@ -12,6 +12,10 @@ describe 'redmine', :type => :class do
     }
   end
 
+  let :pre_condition do
+    'class { "apache": }'
+  end
+
   context 'no parameters' do
     it { should create_class('redmine::config') }
     it { should create_class('redmine::download') }
@@ -292,6 +296,7 @@ describe 'redmine', :type => :class do
     it { should contain_package('libmysqlclient-dev') }
     it { should contain_package('libmagickcore-dev') }
     it { should contain_package('libmagickwand-dev') }
+    it { should contain_class('redmine').with('webroot' => '/var/www/redmine') }
 
   end
 
