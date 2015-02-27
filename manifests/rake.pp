@@ -14,10 +14,18 @@ class redmine::rake {
     creates => "${redmine::webroot}/.session_store",
   }
 
+  case $::redmine::vhost_type {
+    'apache' : {
+      $notify = Class['apache::service']
+    }
+    default: {
+      $notify = undef
+    }
+  }
   # Perform rails migrations
   exec { 'rails_migrations':
     command     => 'rake db:migrate',
-    notify      => Class['apache::service'],
+    notify      => $notify,
     refreshonly => true,
   }
 
@@ -25,7 +33,7 @@ class redmine::rake {
   exec { 'seed_db':
     command => 'rake redmine:load_default_data && touch .seed',
     creates => "${redmine::webroot}/.seed",
-    notify  => Class['apache::service'],
+    notify  => $notify,
     require => Exec['rails_migrations'],
   }
 

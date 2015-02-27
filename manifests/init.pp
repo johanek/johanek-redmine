@@ -111,29 +111,69 @@
 # [*override_options*]
 #   Extra options to add to configuration.yml. Empty by default. Expects a hash.
 #
+# [*manage_vhost*]
+#   Should this module manage the vhost file. True by default.
+#
+# [*vhost_type*]
+#   Type of vhost to manage. 'apache' by default (and only type supported now)
+#
+# [*www_user*]
+#   User to own the files. Default depends on OS. Expects a string.
+#
+# [*www_group*]
+#   Group to own the files. Default depends on OS. Expects a string.
+#
+# [*www_subdir*]
+#   Optional directory relative to the site webroot to install redmine in.
+#   Undef by default. Expects a path string without leading slash.
+#   By using this option you must set manage_vhost to false and
+#   manage that file elsewhere.
+#
 class redmine (
-  $version              = '2.2.3',
-  $download_url         = 'https://github.com/redmine/redmine',
-  $database_server      = 'localhost',
-  $database_user        = 'redmine',
-  $database_password    = 'redmine',
-  $production_database  = 'redmine',
-  $development_database = 'redmine_development',
-  $database_adapter     = undef,
-  $smtp_server          = 'localhost',
-  $smtp_domain          = $::domain,
-  $smtp_port            = 25,
-  $smtp_authentication  = false,
-  $smtp_username        = '',
-  $smtp_password        = '',
-  $vhost_aliases        = 'redmine',
-  $vhost_servername     = 'redmine',
-  $webroot              = '/var/www/html/redmine',
-  $install_dir          = '/usr/src/redmine',
-  $provider             = 'git',
-  $override_options     = {},
-) {
-  class { 'redmine::params': } ->
+  $version               = '2.2.3',
+  $download_url          = 'https://github.com/redmine/redmine',
+  $database_server       = 'localhost',
+  $database_user         = 'redmine',
+  $database_password     = 'redmine',
+  $production_database   = 'redmine',
+  $development_database  = 'redmine_development',
+  $database_adapter      = undef,
+  $database_real_adapter = $::redmine::params::database_real_adapter,
+  $smtp_server           = 'localhost',
+  $smtp_domain           = $::domain,
+  $smtp_port             = 25,
+  $smtp_authentication   = false,
+  $smtp_username         = '',
+  $smtp_password         = '',
+  $vhost_aliases         = 'redmine',
+  $vhost_servername      = 'redmine',
+  $webroot               = '/var/www/html/redmine',
+  $install_dir           = '/usr/src/redmine',
+  $provider              = 'git',
+  $override_options      = {},
+  $manage_vhost          = true,
+  $vhost_type            = 'apache',
+  $www_user              = $::redmine::params::www_user,
+  $www_group             = $::redmine::params::www_group,
+  $www_subdir            = undef,
+  $mysql_devel_package   = $::redmine::params::mysql_devel_package,
+) inherits redmine::params {
+
+  if $database_adapter {
+    $database_real_adapter = $database_adapter
+  }
+  case $provider {
+    'svn' : {
+      $provider_package = 'subversion'
+    }
+    'hg': {
+      $provider_package = 'mercurial'
+    }
+    default: {
+      $provider_package = $provider
+    }
+  }
+
   class { 'redmine::download': } ->
   class { 'redmine::config': } ->
   class { 'redmine::install': } ->

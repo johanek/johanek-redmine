@@ -1,11 +1,9 @@
 # Class redmine::config
 class redmine::config {
 
-  require 'apache'
-
   File {
-    owner => $apache::params::user,
-    group => $apache::params::group,
+    owner => $redmine::www_user,
+    group => $redmine::www_group,
     mode  => '0644'
   }
 
@@ -48,13 +46,28 @@ class redmine::config {
     require => File[$redmine::webroot]
   }
 
-  apache::vhost { 'redmine':
-    port            => '80',
-    docroot         => "${redmine::webroot}/public",
-    servername      => $redmine::vhost_servername,
-    serveraliases   => $redmine::vhost_aliases,
-    options         => 'Indexes FollowSymlinks ExecCGI',
-    custom_fragment => 'RailsBaseURI /',
+  if $::redmine::www_subdir {
+    file_line { 'redmine_relative_url_root':
+      path  => "${redmine::install_dir}/config/environment.rb",
+      line  => "Redmine::Utils::relative_url_root = '/$::redmine::www_subdir'",
+      match => '^Redmine::Utils::relative_url_root',
+    }
+  }
+
+  if $::redmine::manage_vhost {
+    case $::redmine::vhost_type {
+      'apache' : {
+        require 'apache'
+        apache::vhost { 'redmine':
+          port            => '80',
+          docroot         => "${redmine::webroot}/public",
+          servername      => $redmine::vhost_servername,
+          serveraliases   => $redmine::vhost_aliases,
+          options         => 'Indexes FollowSymlinks ExecCGI',
+          custom_fragment => 'RailsBaseURI /',
+        }
+      }
+    }
   }
 
   # Log rotation
