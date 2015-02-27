@@ -41,6 +41,8 @@ class redmine::install {
     notify  => Exec['rails_migrations'],
   }
 
+  create_resources('redmine::plugin', $redmine::plugins)
+
   if $redmine::provider != 'wget' {
     exec { 'bundle_update':
       cwd         => $redmine::install_dir,
