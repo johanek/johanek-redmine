@@ -96,7 +96,9 @@
 #
 # [*webroot*]
 #   Directory in which redmine web files will be installed.
-#   Default: '/var/www/html/redmine'
+#   Default: 'DOCROOT/redmine'
+#   where DOCROOT is the document root of your apache server,
+#   usually /var/www or /var/www/html
 #
 # [*install_dir*]
 #   Path where redmine will be installed
@@ -131,7 +133,7 @@ class redmine (
   $smtp_password        = '',
   $vhost_aliases        = 'redmine',
   $vhost_servername     = 'redmine',
-  $webroot              = '/var/www/html/redmine',
+  $webroot              = "${apache::docroot}/redmine",
   $install_dir          = '/usr/src/redmine',
   $provider             = 'git',
   $override_options     = {},

@@ -158,7 +158,8 @@ Redmine Parameters
 
 #####`webroot`
 
-  Directory in which redmine web files will be installed. Default: '/var/www/html/redmine'
+  Directory in which redmine web files will be installed. Default: 'DOCROOT/redmine'
+  DOCROOT is the document root of your apache server, usually /var/www or /var/www/html
 
 #####`install_dir`
 
