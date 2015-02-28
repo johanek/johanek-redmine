@@ -209,3 +209,8 @@ Plugin Parameters
 
 #####`provider`
   The vcs provider. Default: git
+
+Contributing
+------------
+
+See the wiki for further information about contributing to this module: https://github.com/johanek/johanek-redmine/wiki
