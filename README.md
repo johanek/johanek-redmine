@@ -194,6 +194,35 @@ default:
 
   Optional hash of plugins to install, which are passed to redmine::plugin
 
+#####`www_subdir`  
+
+  Optional directory relative to the site webroot to install redmine in.
+  Undef by default. Expects a path string without leading slash.
+  When using this option the vhost config is your responsibility.
+  Example:
+```puppet
+apache::vhost { 'www.somesite.com':
+  priority        => 20,
+  port            => '80',
+  docroot         => '/usr/src/sites/www.somesite.com/website',
+  servername      => 'www.somesite.com',
+  serveraliases   => ['somesite.com'],
+  directories     => [
+                       { path => '/usr/src/sites/www.somesite.com/website',
+                       },
+                       { path    => '/usr/src/redmine',
+                         options => 'FollowSymlinks ExecCGI',
+                         custom_fragment => "PassengerAppRoot /var/www/html/redmine\n    RailsBaseURI /redmine",
+                       },
+                     ],
+  aliases         => [
+                       { alias            => '/redmine',
+                         path             => '/usr/src/redmine',
+                       },
+                     ],
+}
+```
+
 Plugin Parameters
 ------------------
 
