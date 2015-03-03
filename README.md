@@ -20,6 +20,9 @@ Required modules:
 Optional modules:
 * puppetlabs-vcsrepo if you want to download redmine from a repository (the default)
 
+RedHat or CentOS:
+* EPEL yum repository needs to be configured
+
 Example Usage
 -------------
 
