@@ -52,9 +52,7 @@ class redmine::config {
       line  => "Redmine::Utils::relative_url_root = '/$redmine::www_subdir'",
       match => '^Redmine::Utils::relative_url_root',
     }
-  }
-  else
-  {
+  } else {
     apache::vhost { 'redmine':
       port            => '80',
       docroot         => "${redmine::webroot}/public",
