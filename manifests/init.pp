@@ -116,6 +116,11 @@
 # [*plugins*]
 #   Optional hash of plugins, which are passed to redmine::plugin
 #
+# [*www_subdir*]
+#   Optional directory relative to the site webroot to install redmine in.
+#   Undef by default. Expects a path string without leading slash.
+#   When using this option the vhost config is your responsibility.
+#
 class redmine (
   $version              = '2.2.3',
   $download_url         = 'https://github.com/redmine/redmine',
@@ -138,6 +143,7 @@ class redmine (
   $provider             = 'git',
   $override_options     = {},
   $plugins              = {},
+  $www_subdir           = undef,
 ) {
   class { 'redmine::params': } ->
   class { 'redmine::download': } ->

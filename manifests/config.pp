@@ -46,13 +46,21 @@ class redmine::config {
     content => template('redmine/configuration.yml.erb')
   }
 
-  apache::vhost { 'redmine':
-    port            => '80',
-    docroot         => "${redmine::webroot}/public",
-    servername      => $redmine::vhost_servername,
-    serveraliases   => $redmine::vhost_aliases,
-    options         => 'Indexes FollowSymlinks ExecCGI',
-    custom_fragment => 'RailsBaseURI /',
+  if $redmine::www_subdir {
+    file_line { 'redmine_relative_url_root':
+      path  => "${redmine::install_dir}/config/environment.rb",
+      line  => "Redmine::Utils::relative_url_root = '/$redmine::www_subdir'",
+      match => '^Redmine::Utils::relative_url_root',
+    }
+  } else {
+    apache::vhost { 'redmine':
+      port            => '80',
+      docroot         => "${redmine::webroot}/public",
+      servername      => $redmine::vhost_servername,
+      serveraliases   => $redmine::vhost_aliases,
+      options         => 'Indexes FollowSymlinks ExecCGI',
+      custom_fragment => 'RailsBaseURI /',
+    }
   }
 
   # Log rotation
