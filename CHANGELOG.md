@@ -1,3 +1,21 @@
+##2.2.0
+
+###Notes
+This version improves the experience for users who just want to get redmine working
+out of the box without much configuration.
+For those of you who already have a vhost set up and want to get redmine running in
+a subdirectory, we have a new `www_subdir` setting.
+Ubuntu 10.04 support has been dropped because it has been deemed too old.
+
+###Features
+- Option to install redmine in a directory relative to the webroot
+- CentOS support
+
+###Bugfixes
+- Set the webroot correctly on non Redhat based systems
+- Added note on requiring EPEL
+- Log file rotation now uses the install dir and not the symlink
+
 ##2.1.0
 
 ###Notes
