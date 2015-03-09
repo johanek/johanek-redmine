@@ -1,7 +1,7 @@
 # Class redmine::config
 class redmine::config {
 
-  include 'apache'
+  require 'apache'
 
   File {
     owner => $apache::params::user,
