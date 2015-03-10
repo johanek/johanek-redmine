@@ -49,7 +49,7 @@ class redmine::config {
   if $redmine::www_subdir {
     file_line { 'redmine_relative_url_root':
       path  => "${redmine::install_dir}/config/environment.rb",
-      line  => "Redmine::Utils::relative_url_root = '/$redmine::www_subdir'",
+      line  => "Redmine::Utils::relative_url_root = '/${redmine::www_subdir}'",
       match => '^Redmine::Utils::relative_url_root',
     }
   } else {
