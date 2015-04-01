@@ -1,3 +1,12 @@
+##2.3.0
+WARNING: With the next major version we will up the default redmine version.
+Check if you can upgrade to 2.6.x or explicitly set your version.
+Now passenger starts redmine on apache start. This removes the delay the first
+visitor experiences after a restart of the webserver.
+
+###Features
+- Start a passenger worker for redmine when apache starts
+
 ##2.2.0
 
 ###Notes
