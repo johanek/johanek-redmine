@@ -59,7 +59,10 @@ class redmine::config {
       servername      => $redmine::vhost_servername,
       serveraliases   => $redmine::vhost_aliases,
       options         => 'Indexes FollowSymlinks ExecCGI',
-      custom_fragment => 'RailsBaseURI /',
+      custom_fragment => "
+        RailsBaseURI /
+        PassengerPreStart http://${redmine::vhost_servername}
+        ",
     }
   }
 
