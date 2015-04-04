@@ -122,7 +122,7 @@
 #   When using this option the vhost config is your responsibility.
 #
 class redmine (
-  $version              = '2.2.3',
+  $version              = undef,
   $download_url         = 'https://github.com/redmine/redmine',
   $database_server      = 'localhost',
   $database_user        = 'redmine',
