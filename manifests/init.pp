@@ -121,6 +121,11 @@
 #   Undef by default. Expects a path string without leading slash.
 #   When using this option the vhost config is your responsibility.
 #
+# [*disable_vhost_config*]
+#   Disable the vhost creation by the module.
+#   False by default. 
+#   When using this option the vhost config is your responsibility.
+#
 class redmine (
   $version              = undef,
   $download_url         = 'https://github.com/redmine/redmine',
@@ -144,6 +149,7 @@ class redmine (
   $override_options     = {},
   $plugins              = {},
   $www_subdir           = undef,
+  $disable_vhost_config = false,
 ) {
   class { 'redmine::params': } ->
   class { 'redmine::download': } ->
