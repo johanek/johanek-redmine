@@ -53,7 +53,7 @@ class redmine::config {
       match => '^Redmine::Utils::relative_url_root',
     }
   } else {
-    if $redmine::disable_vhost_config != true {
+    if $redmine::create_vhost {
       apache::vhost { 'redmine':
         port            => '80',
         docroot         => "${redmine::webroot}/public",

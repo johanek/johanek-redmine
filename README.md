@@ -197,7 +197,7 @@ default:
 
   Optional hash of plugins to install, which are passed to redmine::plugin
 
-#####`www_subdir`  
+#####`www_subdir`
 
   Optional directory relative to the site webroot to install redmine in.
   Undef by default. Expects a path string without leading slash.
@@ -225,6 +225,12 @@ apache::vhost { 'www.somesite.com':
                      ],
 }
 ```
+
+#####`create_vhost`
+
+  Enable or disable vhost creation.
+  True by default.
+  When disabling this option the vhost config is your responsibility.
 
 Plugin Parameters
 ------------------
