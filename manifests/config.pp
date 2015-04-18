@@ -53,16 +53,18 @@ class redmine::config {
       match => '^Redmine::Utils::relative_url_root',
     }
   } else {
-    apache::vhost { 'redmine':
-      port            => '80',
-      docroot         => "${redmine::webroot}/public",
-      servername      => $redmine::vhost_servername,
-      serveraliases   => $redmine::vhost_aliases,
-      options         => 'Indexes FollowSymlinks ExecCGI',
-      custom_fragment => "
-        RailsBaseURI /
-        PassengerPreStart http://${redmine::vhost_servername}
-        ",
+    if $redmine::disable_vhost_config != true {
+      apache::vhost { 'redmine':
+        port            => '80',
+        docroot         => "${redmine::webroot}/public",
+        servername      => $redmine::vhost_servername,
+        serveraliases   => $redmine::vhost_aliases,
+        options         => 'Indexes FollowSymlinks ExecCGI',
+        custom_fragment => "
+          RailsBaseURI /
+          PassengerPreStart http://${redmine::vhost_servername}
+          ",
+      }
     }
   }
 
