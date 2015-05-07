@@ -53,6 +53,15 @@ class redmine::config {
       match => '^Redmine::Utils::relative_url_root',
     }
   } else {
+    if $redmine::autostart_redmine {
+      $custom_fragment = "
+        RailsBaseURI /
+        PassengerPreStart http://${redmine::vhost_servername}
+        "
+    } else {
+      $custom_fragment = 'RailsBaseURI /'
+    }
+
     if $redmine::create_vhost {
       apache::vhost { 'redmine':
         port            => '80',
@@ -60,10 +69,7 @@ class redmine::config {
         servername      => $redmine::vhost_servername,
         serveraliases   => $redmine::vhost_aliases,
         options         => 'Indexes FollowSymlinks ExecCGI',
-        custom_fragment => "
-          RailsBaseURI /
-          PassengerPreStart http://${redmine::vhost_servername}
-          ",
+        custom_fragment => $custom_fragment,
       }
     }
   }

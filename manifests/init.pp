@@ -126,6 +126,11 @@
 #   True by default.
 #   When disabling this option the vhost config is your responsibility.
 #
+# [*autostart_redmine*]
+#   Starts passenger workers for redmine when apache starts to speed up
+#   the first page load. Only works for recent versions of passenger.
+#   Default: false
+#
 class redmine (
   $version              = undef,
   $download_url         = 'https://github.com/redmine/redmine',
@@ -150,6 +155,7 @@ class redmine (
   $plugins              = {},
   $www_subdir           = undef,
   $create_vhost         = true,
+  $autostart_redmine    = false,
 ) {
   class { 'redmine::params': } ->
   class { 'redmine::download': } ->

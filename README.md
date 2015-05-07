@@ -232,6 +232,12 @@ apache::vhost { 'www.somesite.com':
   True by default.
   When disabling this option the vhost config is your responsibility.
 
+#####`autostart_redmine`
+
+  Starts passenger workers for redmine when apache starts to speed up
+  the first page load. Only works for recent versions of passenger.
+  Default: false
+
 Plugin Parameters
 ------------------
 
