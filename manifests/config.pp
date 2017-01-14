@@ -4,8 +4,8 @@ class redmine::config {
   require 'apache'
 
   File {
-    owner => $apache::params::user,
-    group => $apache::params::group,
+    owner => $apache::user,
+    group => $apache::group,
     mode  => '0644'
   }
 
