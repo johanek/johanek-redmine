@@ -83,8 +83,23 @@
 #   Default: 25
 #
 # [*smtp_authentication*]
-#   SMTP authentication mode.
-#   Default: ':login'
+#   SMTP authentication mode: could be ':plain' or ':login' or ':cram_md5'. Set
+#   to false to disable smtp_authentication.
+#   Default: false
+#
+# [*smtp_ssl*]
+#   Set to true to force connection to SMTP server to use SSL/TLS.
+#   Default: false
+#
+# [*smtp_openssl_verify_mode*]
+#   Set to 'none' to disable OpenSSL peer certificate verification. Other
+#   possible values are: 'client_once' and 'fail_if_no_peer_cert'.
+#   Default: 'peer'
+#
+# [*smtp_enable_starttls_auto*]
+#   Set to true to enable SMTP/TLS (STARTTLS) when connecting to remote SMTP
+#   server.
+#   Default: true
 #
 # [*smtp_username*]
 #   SMTP user name for authentication.
@@ -127,30 +142,43 @@
 #   When disabling this option the vhost config is your responsibility.
 #
 class redmine (
-  $version              = undef,
-  $download_url         = 'https://github.com/redmine/redmine',
-  $database_server      = 'localhost',
-  $database_user        = 'redmine',
-  $database_password    = 'redmine',
-  $production_database  = 'redmine',
-  $development_database = 'redmine_development',
-  $database_adapter     = undef,
-  $smtp_server          = 'localhost',
-  $smtp_domain          = $::domain,
-  $smtp_port            = 25,
-  $smtp_authentication  = false,
-  $smtp_username        = '',
-  $smtp_password        = '',
-  $vhost_aliases        = 'redmine',
-  $vhost_servername     = 'redmine',
-  $webroot              = "${apache::docroot}/redmine",
-  $install_dir          = '/usr/src/redmine',
-  $provider             = 'git',
-  $override_options     = {},
-  $plugins              = {},
-  $www_subdir           = undef,
-  $create_vhost         = true,
+  $version                  = undef,
+  $download_url             = 'https://github.com/redmine/redmine',
+  $database_server          = 'localhost',
+  $database_user            = 'redmine',
+  $database_password        = 'redmine',
+  $production_database      = 'redmine',
+  $development_database     = 'redmine_development',
+  $database_adapter         = undef,
+  $smtp_server              = 'localhost',
+  $smtp_domain              = $::domain,
+  $smtp_port                = 25,
+  $smtp_authentication      = false,
+  $smtp_openssl_verify_mode = 'peer',
+  $smtp_enable_starttls_auto= true,
+  $smtp_ssl                 = false,
+  $smtp_username            = '',
+  $smtp_password            = '',
+  $vhost_aliases            = 'redmine',
+  $vhost_servername         = 'redmine',
+  $webroot                  = "${apache::docroot}/redmine",
+  $install_dir              = '/usr/src/redmine',
+  $provider                 = 'git',
+  $override_options         = {},
+  $plugins                  = {},
+  $www_subdir               = undef,
+  $create_vhost             = true,
 ) {
+
+  validate_bool($smtp_ssl, $smtp_enable_starttls_auto)
+  validate_string($smtp_openssl_verify_mode)
+  unless $smtp_openssl_verify_mode in ['none', 'peer', 'client_once', 'fail_if_no_peer_cert'] {
+    fail("\$smtp_openssl_verify_mode MUST be one of 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'. Got '$smtp_openssl_verify_mode'")
+  }
+  unless $smtp_authentication == false or $smtp_authentication in [':plain', ':login', ':cram_md5'] {
+    fail("\$smtp_authentication MUST be one of false, ':login', ':plain' or ':cram_md5'. Got '$smtp_authentication'")
+  }
+
   class { 'redmine::params': } ->
   class { 'redmine::download': } ->
   class { 'redmine::config': } ->

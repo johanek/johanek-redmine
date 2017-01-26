@@ -4,8 +4,17 @@ default:
       address: <%= scope.lookupvar('redmine::smtp_server') %>
       port: <%= scope.lookupvar('redmine::smtp_port') %>
       domain: <%= scope.lookupvar('redmine::smtp_domain') %>
-<% if scope.lookupvar('redmine::smtp_authentication') == true -%>
-      authentication: :login
+<% if scope.lookupvar('redmine::smtp_ssl') == true -%>
+      ssl: true
+<% end %>
+<% if scope.lookupvar('redmine::smtp_enable_starttls_auto') == false -%>
+      enable_starttls_auto: false
+<% end %>
+<% if scope.lookupvar('redmine::smtp_openssl_verify_mode') != 'peer' -%>
+     openssl_verify_mode: <%= scope.lookupvar('redmine::smtp_openssl_verify_mode') %>
+<% end %>
+<% if scope.lookupvar('redmine::smtp_authentication') != false -%>
+      authentication: <%= scope.lookupvar('redmine::smtp_authentication') %>
       user_name: <%= scope.lookupvar('redmine::smtp_username') %>
       password: <%= scope.lookupvar('redmine::smtp_password') %>
 <% end -%>

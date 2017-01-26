@@ -250,15 +250,41 @@ describe 'redmine', :type => :class do
 
   end
 
-  context 'set mail params' do
+  context 'default mail params' do
+    it { should contain_file('/usr/src/redmine/config/configuration.yml').with_content(/address: localhost/) }
+    it { should contain_file('/usr/src/redmine/config/configuration.yml').with_content(/domain: test.com/) }
+    it { should contain_file('/usr/src/redmine/config/configuration.yml').with_content(/port: 25/) }
+    it { should_not contain_file('/usr/src/redmine/config/configuration.yml').with_content(/authentication:/) }
+    it { should_not contain_file('/usr/src/redmine/config/configuration.yml').with_content(/user_name:/) }
+    it { should_not contain_file('/usr/src/redmine/config/configuration.yml').with_content(/password:/) }
+    it { should_not contain_file('/usr/src/redmine/config/configuration.yml').with_content(/password:/) }
+    it { should_not contain_file('/usr/src/redmine/config/configuration.yml').with_content(/ssl:/) }
+    it { should_not contain_file('/usr/src/redmine/config/configuration.yml').with_content(/openssl_verify_mode:/) }
+    it { should_not contain_file('/usr/src/redmine/config/configuration.yml').with_content(/enable_starttls_auto:/) }
+  end
+
+  context 'set mail params with ssl' do
     let :params do
       {
-        :smtp_server         => 'smtp',
-        :smtp_domain         => 'google.com',
-        :smtp_port           => 1234,
-        :smtp_authentication => true,
-        :smtp_username       => 'user',
-        :smtp_password       => 'password'
+        :smtp_ssl                   => true,
+      }
+    end
+
+    it { should contain_file('/usr/src/redmine/config/configuration.yml').with_content(/address: localhost/) }
+    it { should contain_file('/usr/src/redmine/config/configuration.yml').with_content(/domain: test.com/) }
+    it { should contain_file('/usr/src/redmine/config/configuration.yml').with_content(/port: 25/) }
+    it { should contain_file('/usr/src/redmine/config/configuration.yml').with_content(/ssl: true/) }
+  end
+
+  context 'set mail params with authentication' do
+    let :params do
+      {
+        :smtp_server                => 'smtp',
+        :smtp_domain                => 'google.com',
+        :smtp_port                  => 1234,
+        :smtp_authentication        => ':login',
+        :smtp_username              => 'user',
+        :smtp_password              => 'password',
       }
     end
 
@@ -268,6 +294,25 @@ describe 'redmine', :type => :class do
     it { should contain_file('/usr/src/redmine/config/configuration.yml').with_content(/authentication: :login/) }
     it { should contain_file('/usr/src/redmine/config/configuration.yml').with_content(/user_name: user/) }
     it { should contain_file('/usr/src/redmine/config/configuration.yml').with_content(/password: password/) }
+  end
+
+  context 'set wrong mail params - smtp_authentication' do
+    let :params do
+      {
+        :smtp_authentication      => 'craptext',
+      }
+    end
+    it { should raise_error(Puppet::Error, /smtp_authentication MUST be/) }
+  end
+
+  context 'set wrong mail params - smtp_openssl_verify_mode' do
+    let :params do
+      {
+        :smtp_authentication      => ':login',
+        :smtp_openssl_verify_mode => 0,
+      }
+    end
+    it { should raise_error(Puppet::Error, /smtp_openssl_verify_mode MUST be/) }
   end
 
   context 'set webroot' do
