@@ -173,10 +173,10 @@ class redmine (
   validate_bool($smtp_ssl, $smtp_enable_starttls_auto)
   validate_string($smtp_openssl_verify_mode)
   unless $smtp_openssl_verify_mode in ['none', 'peer', 'client_once', 'fail_if_no_peer_cert'] {
-    fail("\$smtp_openssl_verify_mode MUST be one of 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'. Got '$smtp_openssl_verify_mode'")
+    fail("\$smtp_openssl_verify_mode MUST be one of 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'. Got '${smtp_openssl_verify_mode}'")
   }
   unless $smtp_authentication == false or $smtp_authentication in [':plain', ':login', ':cram_md5'] {
-    fail("\$smtp_authentication MUST be one of false, ':login', ':plain' or ':cram_md5'. Got '$smtp_authentication'")
+    fail("\$smtp_authentication MUST be one of false, ':login', ':plain' or ':cram_md5'. Got '${smtp_authentication}'")
   }
 
   class { 'redmine::params': } ->
