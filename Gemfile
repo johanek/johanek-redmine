@@ -17,5 +17,5 @@ if RUBY_VERSION >= '1.9'
   gem 'test-kitchen'
   gem 'librarian-puppet'
   gem 'kitchen-puppet'
-  gem 'kitchen-vagrant'
+  gem 'kitchen-docker'
 end

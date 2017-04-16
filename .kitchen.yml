@@ -1,6 +1,6 @@
 ---
 driver:
-  name: vagrant
+  name: docker
 
 provisioner:
   name: puppet_apply
