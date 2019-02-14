@@ -1,6 +1,8 @@
 johanek-redmine
 ---------------
 
+This project is abandoned
+
 [![Build Status](https://travis-ci.org/johanek/johanek-redmine.png?branch=master)](http://travis-ci.org/johanek/johanek-redmine)
 
 This module installs redmine, running behind apache and passenger, and backed by mysql, mariadb or postgresql
